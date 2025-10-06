@@ -1,0 +1,770 @@
+:root {
+  --zinc-0: #ffffff;
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+
+  --color-brand-50: #f0f6ff;
+  --color-brand-100: #d6e4ff;
+  --color-brand-200: #adc8ff;
+  --color-brand-300: #84a9ff;
+  --color-brand-400: #6690ff;
+  --color-brand-500: #3366ff;
+  --color-brand-600: #254eda;
+  --color-brand-700: #1939b7;
+  --color-brand-800: #102693;
+  --color-brand-900: #091a7a;
+
+  --border-radius: 3px;
+  --table-padding: 0.8rem;
+  --table-font-size: 1.2rem;
+
+  --danger-500: #ef4444;
+  --danger-600: #dc2626;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+
+  --shadow-sm: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --shadow-md: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: var(--zinc-800);
+}
+
+/* GLOBAL CSS */
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dataTable-wrapper,
+table.dataTable {
+  width: 100% !important;
+  border-collapse: collapse;
+  background: var(--zinc-0);
+  font-size: 1.4rem;
+  color: var(--zinc-800);
+}
+
+/* Table header */
+table.dataTable thead th {
+  background: var(--zinc-100);
+  color: var(--zinc-700);
+  font-weight: 600;
+  text-align: left;
+  padding: 1.2rem;
+  border-bottom: 2px solid var(--zinc-200);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+table.dataTable thead th:hover {
+  background: var(--zinc-200);
+}
+
+/* Table body */
+table.dataTable tbody td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--zinc-200);
+  color: var(--zinc-700);
+}
+
+/* Zebra striping */
+table.dataTable tbody tr:nth-child(even) {
+  background: var(--zinc-50);
+}
+
+/* Hover effect */
+table.dataTable tbody tr:hover {
+  background: var(--zinc-100);
+}
+
+/* Sorting indicators */
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+  font-family: "Bootstrap Icons";
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+table.dataTable thead .sorting:after {
+  content: "\F282"; /* bi-arrow-down-up */
+}
+table.dataTable thead .sorting_asc:after {
+  content: "\F148"; /* bi-arrow-up */
+}
+table.dataTable thead .sorting_desc:after {
+  content: "\F128"; /* bi-arrow-down */
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--zinc-300);
+  background: var(--zinc-0);
+  color: var(--zinc-700) !important;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: var(--zinc-100);
+  border-color: var(--zinc-400);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: var(--zinc-700) !important;
+  color: var(--zinc-0) !important;
+  border-color: var(--zinc-700);
+}
+
+/* Length + Search */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin: 1rem 0;
+  font-size: 1.3rem;
+  color: var(--zinc-600);
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--zinc-300);
+  border-radius: 0.4rem;
+  background: var(--zinc-0);
+  color: var(--zinc-800);
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: var(--zinc-500);
+  outline: none;
+}
+
+/* Info text */
+.dataTables_wrapper .dataTables_info {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--zinc-500);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--zinc-0);
+  font-size: 1.4rem;
+  color: var(--zinc-800);
+  margin: 1.5rem 0;
+  border-radius: 0.6rem;
+  overflow: hidden; /* for rounded corners */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Header */
+table thead {
+  background: var(--zinc-100);
+}
+
+table thead th {
+  padding: 1.2rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--zinc-700);
+  border-bottom: 2px solid var(--zinc-200);
+}
+
+/* Table Body */
+table tbody td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--zinc-200);
+  color: var(--zinc-700);
+}
+
+/* Zebra striping */
+table tbody tr:nth-child(even) {
+  background: var(--zinc-50);
+}
+
+/* Hover effect */
+table tbody tr:hover {
+  background: var(--zinc-100);
+}
+
+table.table-sm td,
+table.table-sm th {
+  padding: 0.8rem;
+  font-size: 1.3rem;
+}
+
+table.table-bordered,
+table.table-bordered td,
+table.table-bordered th {
+  border: 1px solid var(--zinc-200);
+}
+
+table.table-bordered thead th {
+  background: var(--zinc-100);
+}
+
+table.table-striped tbody tr:nth-child(even) {
+  background: var(--zinc-50);
+}
+
+.col-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.col-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.row-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn {
+  display: inline-block;
+  border-radius: 3px;
+  background: var(--color-brand-600);
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.btn-sm {
+  padding: 0.6rem 1rem;
+  font-size: 1.2rem;
+}
+
+.btn-md {
+  padding: 0.8rem 1.4rem;
+  font-size: 1.4rem;
+}
+
+.btn-lg {
+  padding: 1rem 1.8rem;
+  font-size: 1.6rem;
+}
+
+.btn-primary {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+}
+
+.btn-success {
+  background: var(--success-500);
+  color: var(--zinc-0);
+}
+.btn-success:hover {
+  background: var(--success-600);
+}
+.btn-danger {
+  background: var(--danger-500);
+  color: var(--zinc-0);
+}
+.btn-danger:hover {
+  background: var(--danger-600);
+}
+
+.btn-secondary {
+  background: var(--zinc-200);
+  color: var(--zinc-800);
+}
+.btn-secondary:hover {
+  background: var(--zinc-300);
+}
+.btn-primary:hover {
+  background: var(--color-brand-700);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.section-header .title {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.676);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-overlay.hide {
+  display: none;
+}
+
+.modal {
+  background: var(--zinc-0);
+  border-radius: 5px;
+  box-shadow: var(--shadow-md);
+  width: 90%;
+  max-width: fit-content;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal .modal-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--zinc-200);
+}
+
+.close-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--zinc-100);
+  border: none;
+  border-bottom-left-radius: 15px;
+  cursor: pointer;
+  padding: 0.2rem 0.8rem;
+  font-size: 2.4rem;
+  color: var(--zinc-600);
+  transition: all 0.3s ease;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal form label {
+  font-size: 1.4rem;
+}
+
+.modal form input {
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: 1px solid var(--zinc-200);
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.3s ease;
+  color: var(--zinc-800);
+  font-family: inherit;
+}
+
+.modal form select {
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: 1px solid var(--zinc-200);
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.3s ease;
+  background: var(--zinc-0);
+  color: var(--zinc-600);
+  font-family: inherit;
+}
+
+.modal form .form-btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.close-modal:hover {
+  background: var(--zinc-200);
+}
+
+.loader {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  background-image: linear-gradient(#fff 16px, transparent 0),
+    linear-gradient(#0077ff 16px, transparent 0),
+    linear-gradient(#0077ff 16px, transparent 0),
+    linear-gradient(#fff 16px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left top, left bottom, right top, right bottom;
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  0% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(0deg);
+  }
+  50% {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg);
+  }
+  100% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(360deg);
+  }
+}
+
+.loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.676);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.loader-overlay.hide {
+  display: none;
+}
+
+/* APP LAYOUT */
+.app-layout {
+  display: grid;
+  grid-template-columns: 24rem 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  background: var(--zinc-50);
+}
+
+.side-bar {
+  grid-row: 1 / -1;
+  padding: 1rem 2rem 5rem 2rem;
+}
+
+.side-bar .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 3.25rem;
+}
+
+.side-bar .logo img {
+  width: 4rem;
+  height: 4rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  background: var(--color-brand-600);
+}
+
+.side-bar .logo h1 {
+  font-size: 1.8rem;
+  background-image: linear-gradient(
+    to right,
+    var(--color-brand-500),
+    var(--color-brand-700)
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.side-bar .logo p {
+  font-size: 0.9rem;
+}
+
+.side-bar .nav {
+  height: 100%;
+  max-height: 90%;
+}
+
+.side-bar .nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.side-bar .nav-list .nav-link {
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--zinc-600);
+}
+
+.side-bar .nav-list .nav-link i {
+  font-size: 1.6rem;
+}
+
+.side-bar .nav-list .nav-item:last-child {
+  margin-top: auto;
+
+  a {
+    margin: 0.85rem 0;
+  }
+}
+
+.side-bar .nav-list .nav-link:hover {
+  background: var(--zinc-200);
+}
+
+.side-bar .nav-list .nav-link.active {
+  color: var(--color-brand-600);
+  background: var(--color-brand-50);
+  font-weight: 600;
+}
+
+.header {
+  padding: 1.85rem 2rem;
+}
+
+.main-content {
+  background: var(--zinc-0);
+  height: 100%;
+  padding: 1.5rem;
+}
+
+/* STUDENTS PAGE */
+.students-tab {
+  width: 100%;
+  max-width: 25rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 2rem;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.students-tab button {
+  padding: 0.8rem 1.4rem;
+  border-left: 1px solid var(--zinc-300);
+  cursor: pointer;
+  background: var(--zinc-100);
+}
+.students-tab .btn-tab.active {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+}
+.students-tab button:first-child {
+  border-left: none;
+}
+
+/* Tab content */
+.tab-pane {
+  display: none;
+}
+.tab-pane.active {
+  display: block;
+}
+
+/* FEES PAGE CSS */
+.fees-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.fee-card {
+  background: var(--zinc-50);
+  padding: 1.5rem;
+  border-radius: 5px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.fee-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.fee-header h2 {
+  font-size: 1.2rem;
+  color: var(--zinc-800);
+  font-weight: 400;
+}
+.fee-header i {
+  font-size: 1.8rem;
+  padding: 0.2rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: var(--color-brand-100);
+  color: var(--color-brand-600);
+}
+.fee-summary {
+  color: var(--zinc-600);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.fee-summary h3 {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+.fee-summary progress {
+  width: 100%;
+  height: 1rem;
+  border: 1px solid var(--zinc-200);
+  border-radius: 5px;
+  overflow: hidden;
+  appearance: none;
+}
+.fee-summary .progress-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.fee-summary button {
+  width: 100%;
+}
+.fee-details-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  width: 100%;
+}
+.fee-details-wrapper .left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.left a {
+  font-size: 1.8rem;
+  padding: 0.5rem 1rem;
+}
+.left a:hover {
+  background: var(--zinc-100);
+  border-radius: 3px;
+}
+.left i {
+  font-size: 1.4rem;
+  color: var(--zinc-400);
+}
+.left .title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--zinc-700);
+  text-decoration: 2px var(--zinc-300) underline;
+}
+.fee-details-wrapper .right {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.fee-dashboard {
+  height: 90%;
+  padding: 1.2rem;
+}
+.fee-dashboard .metric-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.metric-cards .card {
+  border-radius: 3px;
+  box-shadow: var(--shadow-sm);
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--zinc-700);
+}
+.metric-cards .card .card-left p {
+  color: var(--zinc-500);
+}
+.metric-cards .card .card-left h2 {
+  font-size: 1.8rem;
+}
+.metric-cards .card .card-right {
+  background: linear-gradient(
+    to right bottom,
+    var(--color-brand-400),
+    var(--color-brand-600)
+  );
+  color: var(--zinc-0);
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 3px;
+  box-shadow: var(--shadow-md);
+}
+.metric-cards .card .card-right i {
+  font-size: 1.8rem;
+}
