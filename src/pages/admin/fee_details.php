@@ -9,6 +9,7 @@ if (!isset($fee_id)) {
     exit;
 }
 $fee = get_fee_by_id($conn, $fee_id);
+$courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
 ?>
 <div class="section-header">
     <div class="fee-details-wrapper">
@@ -24,7 +25,7 @@ $fee = get_fee_by_id($conn, $fee_id);
                 <i class="bi bi-pencil-square"></i>
                 <span>update fee</span>
             </button>
-            <button class="btn btn-sm btn-icon  btn-primary">
+            <button class="btn btn-sm btn-icon  btn-primary" id="btn-assign">
                 <i class="bi bi-person-add"></i>
                 <span>assign fee</span>
             </button>
@@ -109,56 +110,138 @@ $fee = get_fee_by_id($conn, $fee_id);
 
 
 
+<div class="modal-overlay assign-fee-modal hide">
+    <div class="modal">
+        <button class="close-modal"><i class="bi bi-x"></i></button>
+        <h2 class="modal-title">add student</h2>
+        <form id="assign-fee-form">
+            <div class="row-col">
+                <label for="assign-fee-type">Assign fee to:</label>
+                <select name="assign-fee-type" id="assign-fee-type">
+                    <option value="">Select action</option>
+                    <option value="all">all students</option>
+                    <option value="year">all students by year</option>
+                    <option value="course">all students by course</option>
+                    <option value="course-year">all students by course and year</option>
+                </select>
+            </div>
+
+            <div class="row-col" id="year-wrapper">
+                <label for="year">year</label>
+                <input type="text" name="year" id="year">
+            </div>
+
+            <div class="row-col" id="course-wrapper">
+                <label for="course">course</label>
+                <select name="course" id="course">
+                    <option value="">Select course</option>
+                    <?php foreach ($courses as $course): ?>
+                        <option value="<?= $course["id"] ?>"><?= $course["course"] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="row-col" id="course-year-wrapper">
+                <div class="row-col">
+                    <label for="course">course</label>
+                    <select name="course" id="course">
+                        <option value="">Select course</option>
+                        <?php foreach ($courses as $course): ?>
+                            <option value="<?= $course["id"] ?>"><?= $course["course"] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="row-col">
+                    <label for="year">year</label>
+                    <input type="text" name="year" id="year">
+                </div>
+
+            </div>
+
+
+            <div class="form-btn">
+                <button type="submit" class="btn btn-md btn-primary">Save</button>
+                <button type="button" class="btn btn-md btn-secondary btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
+
     $(document).ready(function () {
-        const openModalBtn = $("#btn-fee");
-        const closeModalBtn = $(".close-modal");
-        const modalOverlay = $(".modal-overlay");
 
-        // Open Modal
-        openModalBtn.on("click", function () {
-            modalOverlay.removeClass("hide");
+        // When user clicks "Assign fee"
+        $("#btn-assign").on("click", function () {
+            $(".assign-fee-modal").removeClass("hide");
+            resetAssignForm();
         });
 
-        // Close Modal
-        closeModalBtn.on("click", function () {
-            modalOverlay.addClass("hide");
+        // Handle dropdown selection
+        $("#assign-fee-type").on("change", function () {
+            const action = $(this).val();
+            toggleAssignInputs(action);
         });
 
-        $(".btn-cancel").on("click", function () {
-            modalOverlay.addClass("hide");
-            $("#add-fee-form")[0].reset();
+        // Close modal logic
+        $(".close-modal, .btn-cancel").on("click", function () {
+            closeAssignModal();
         });
 
-        modalOverlay.on("click", function (e) {
-            if ($(e.target).is(modalOverlay)) {
-                modalOverlay.addClass("hide");
+        // Clicking outside closes modal
+        $(".assign-fee-modal").on("click", function (e) {
+            if ($(e.target).is(".assign-fee-modal")) {
+                closeAssignModal();
             }
         });
 
-        $("#add-fee-form").on("submit", function (e) {
+        // Helper: Reset the assign form
+        function resetAssignForm() {
+            $("#assign-fee-form")[0].reset();
+            $("#year-wrapper, #course-wrapper, #course-year-wrapper").hide();
+        }
+
+        // Helper: Toggle input visibility
+        function toggleAssignInputs(action) {
+            const wrappers = {
+                year: $("#year-wrapper"),
+                course: $("#course-wrapper"),
+                courseYear: $("#course-year-wrapper")
+            };
+
+            // Hide all by default
+            Object.values(wrappers).forEach($el => $el.hide());
+
+            // Show only what’s needed
+            switch (action) {
+                case "year":
+                    wrappers.year.fadeIn();
+                    break;
+                case "course":
+                    wrappers.course.fadeIn();
+                    break;
+                case "course-year":
+                    wrappers.courseYear.fadeIn();
+                    break;
+            }
+        }
+
+        // Helper: Close modal
+        function closeAssignModal() {
+            $(".assign-fee-modal").addClass("hide");
+            resetAssignForm();
+        }
+
+        $("#assign-fee-form").on("submit", function (e) {
             e.preventDefault();
+
             const formData = $(this).serialize();
 
-            $.ajax({
-                url: "/financore/src/handler/add_fee.php",
-                type: "POST",
-                data: formData,
-                dataType: "json",
-                success: function (response) {
-                    if (response.status) {
-                        window.location.reload();
-                    } else {
-                        window.location.reload();
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX Error: ", status, error);
-                }
-            })
-        });
+            console.log(formData);
+
+        })
     });
+
 </script>
 <?php if (isset($_SESSION['toastr'])): ?>
     <script>
