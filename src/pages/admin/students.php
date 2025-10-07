@@ -54,36 +54,6 @@ $students_list = get_all_students_by_department_id($conn, $_SESSION['department_
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td><?= $student["student_id"] ?></td>
-                            <td><?= $student["last_name"] ?></td>
-                            <td><?= $student["first_name"] ?></td>
-                            <td><?= $student["gender"] ?></td>
-                            <td><?= $student["course_name"] ?></td>
-                            <td><?= $student["year"] ?></td>
-                            <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a href="#" class="btn btn-icon btn-sm btn-secondary">
-                                    <i class="bi bi-person-circle"></i>
-                                    <span>view profile</span>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><?= $student["student_id"] ?></td>
-                            <td><?= $student["last_name"] ?></td>
-                            <td><?= $student["first_name"] ?></td>
-                            <td><?= $student["gender"] ?></td>
-                            <td><?= $student["course_name"] ?></td>
-                            <td><?= $student["year"] ?></td>
-                            <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a href="#" class="btn btn-icon btn-sm btn-secondary">
-                                    <i class="bi bi-person-circle"></i>
-                                    <span>view profile</span>
-                                </a>
-                            </td>
-                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -128,7 +98,7 @@ $students_list = get_all_students_by_department_id($conn, $_SESSION['department_
                     <select name="course" id="course">
                         <option value="">select course</option>
                         <?php foreach ($courses as $course): ?>
-                            <option value="<?= $course['id']; ?>"><?= $course['course']; ?></option>
+                            <option value="<?= $course['id']; ?>"><?= $course['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

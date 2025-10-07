@@ -110,14 +110,15 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
 
 
 
-<div class="modal-overlay assign-fee-modal hide">
+<!-- <div class="modal-overlay assign-fee-modal hide">
     <div class="modal">
         <button class="close-modal"><i class="bi bi-x"></i></button>
         <h2 class="modal-title">add student</h2>
         <form id="assign-fee-form">
+            <input type="hidden" name="fee_id" value="<?= $fee_id ?>">
             <div class="row-col">
                 <label for="assign-fee-type">Assign fee to:</label>
-                <select name="assign-fee-type" id="assign-fee-type">
+                <select name="assign_fee_type" id="assign-fee-type">
                     <option value="">Select action</option>
                     <option value="all">all students</option>
                     <option value="year">all students by year</option>
@@ -128,7 +129,13 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
 
             <div class="row-col" id="year-wrapper">
                 <label for="year">year</label>
-                <input type="text" name="year" id="year">
+                <select name="year" id="year">
+                    <option value="">select year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
             </div>
 
             <div class="row-col" id="course-wrapper">
@@ -136,7 +143,7 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
                 <select name="course" id="course">
                     <option value="">Select course</option>
                     <?php foreach ($courses as $course): ?>
-                        <option value="<?= $course["id"] ?>"><?= $course["course"] ?></option>
+                        <option value="<?= $course["id"] ?>"><?= $course["name"] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -147,13 +154,19 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
                     <select name="course" id="course">
                         <option value="">Select course</option>
                         <?php foreach ($courses as $course): ?>
-                            <option value="<?= $course["id"] ?>"><?= $course["course"] ?></option>
+                            <option value="<?= $course["id"] ?>"><?= $course["name"] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="row-col">
                     <label for="year">year</label>
-                    <input type="text" name="year" id="year">
+                    <select name="year" id="year">
+                        <option value="">select year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
                 </div>
 
             </div>
@@ -165,9 +178,54 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
             </div>
         </form>
     </div>
+</div> -->
+<div class="modal-overlay assign-fee-modal hide">
+    <div class="modal">
+        <form id="assign-fee-form">
+            <input type="hidden" name="fee_id" value="<?= $fee_id ?>">
+
+            <div class="row-col">
+                <label for="assign-fee-type">Assign fee to:</label>
+                <select name="action" id="assign-fee-type">
+                    <option value="">Select action</option>
+                    <option value="all">all students</option>
+                    <option value="year">all students by year</option>
+                    <option value="course">all students by course</option>
+                    <option value="year_course">all students by course and year</option>
+                </select>
+            </div>
+
+            <div class="row-col" id="year-input-control">
+                <label for="year_select">Year</label>
+                <select name="year" id="year_select" disabled>
+                    <option value="">Select year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+
+            <div class="row-col" id="course-input-control">
+                <label for="course_select">Course</label>
+                <select name="course" id="course_select" disabled>
+                    <option value="">Select course</option>
+                    <?php foreach ($courses as $course): ?>
+                        <option value="<?= $course["id"] ?>"><?= $course["name"] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="form-btn">
+                <button type="submit" class="btn btn-md btn-primary">Save</button>
+                <button type="button" class="btn btn-md btn-secondary btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<script>
+
+<!-- <script>
 
     $(document).ready(function () {
 
@@ -237,12 +295,147 @@ $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
 
             const formData = $(this).serialize();
 
-            console.log(formData);
+
+            $.ajax({
+                url: "/financore/src/handler/assign_fee.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
 
         })
     });
 
+</script> -->
+<script>
+    $(document).ready(function () {
+        // ... (existing modal open/close logic)
+
+        // Initial setup: Rename select elements for clarity
+        const $actionSelect = $("#assign-fee-type");
+        const $yearControl = $("#year-input-control");
+        const $courseControl = $("#course-input-control");
+        const $yearSelect = $("#year_select");
+        const $courseSelect = $("#course_select"); // Corrected ID
+
+        // Initial state
+        $yearControl.hide();
+        $courseControl.hide();
+        $yearSelect.prop('disabled', true);
+        $courseSelect.prop('disabled', true);
+
+        // When user clicks "Assign fee"
+        $("#btn-assign").on("click", function () {
+            $(".assign-fee-modal").removeClass("hide");
+            resetAssignForm();
+        });
+
+        // Handle dropdown selection
+        $actionSelect.on("change", function () {
+            const action = $(this).val();
+            toggleAssignInputs(action);
+        });
+
+        // Close modal logic
+        $(".close-modal, .btn-cancel").on("click", function () {
+            closeAssignModal();
+        });
+
+        // Clicking outside closes modal
+        $(".assign-fee-modal").on("click", function (e) {
+            if ($(e.target).is(".assign-fee-modal")) {
+                closeAssignModal();
+            }
+        });
+
+        // Helper: Reset the assign form
+        function resetAssignForm() {
+            $("#assign-fee-form")[0].reset();
+            $yearControl.hide();
+            $courseControl.hide();
+            $yearSelect.prop('disabled', true);
+            $courseSelect.prop('disabled', true);
+        }
+
+        // Helper: Toggle input visibility and DYNAMICALLY ENABLE/DISABLE
+        function toggleAssignInputs(action) {
+
+            // 1. Hide/Disable All
+            $yearControl.fadeOut(0);
+            $courseControl.fadeOut(0);
+            $yearSelect.prop('disabled', true);
+            $courseSelect.prop('disabled', true);
+
+            // 2. Show/Enable based on action
+            switch (action) {
+                case "year":
+                    $yearControl.fadeIn();
+                    $yearSelect.prop('disabled', false);
+                    break;
+                case "course":
+                    $courseControl.fadeIn();
+                    $courseSelect.prop('disabled', false);
+                    break;
+                case "year_course":
+                    $yearControl.fadeIn();
+                    $courseControl.fadeIn();
+                    $yearSelect.prop('disabled', false);
+                    $courseSelect.prop('disabled', false);
+                    break;
+            }
+        }
+
+        // Helper: Close modal
+        function closeAssignModal() {
+            $(".assign-fee-modal").addClass("hide");
+            resetAssignForm();
+        }
+
+        // --- AJAX Submission ---
+        $("#assign-fee-form").on("submit", function (e) {
+            e.preventDefault();
+
+            // Only serialize the currently enabled fields
+            const formData = $(this).serialize();
+
+
+
+
+            $.ajax({
+                url: "/financore/src/handler/assign_fee.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        // If status is false, show a message before reloading
+                        console.error("Assignment failed:", response.message);
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                    // Add a toastr error here if needed
+                    window.location.reload();
+                }
+            })
+        });
+    });
 </script>
+
 <?php if (isset($_SESSION['toastr'])): ?>
     <script>
         toastr["<?= $_SESSION['toastr']['type'] ?>"]("<?= $_SESSION['toastr']['message'] ?>");

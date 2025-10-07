@@ -11,6 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $year = $_POST["year"];
     $gender = $_POST["gender"];
     $department_id = $_SESSION['department_id'];
+    $current_year = date('Y');
+
+    // Calculate the next year (e.g., 2026)
+    $next_year = $current_year + 1;
+
+    // Format the school year string
+    $school_year = "{$current_year}-{$next_year}";
 
 
 
@@ -39,6 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt = $conn->prepare($sql);
 
         if ($stmt->execute([$student_id, $first_name, $last_name, $course, $year, $gender, $department_id])) {
+            $new_student_row_id = $conn->lastInsertId();
+            $enrollment_sql = "INSERT INTO enrollments (student_id, course_id, school_year) VALUES (?, ?, ?)";
+            $enrollment_stmt = $conn->prepare($enrollment_sql);
+            $enrollment_stmt->execute([$new_student_row_id, $course, $school_year]);
+
             $_SESSION['toastr'] = [
                 "type" => "success",
                 "message" => "Student successfully added."
