@@ -4,6 +4,7 @@ include_once "../../includes/header.php";
 require_once "../../config/dbconn.php";
 require_once "../../api/admin_query.php";
 $fees = get_all_fees_by_department_id($conn, $_SESSION['department_id']);
+
 ?>
 <div class="section-header">
     <h1 class="title">Fees</h1>
@@ -17,18 +18,32 @@ $fees = get_all_fees_by_department_id($conn, $_SESSION['department_id']);
     <?php foreach ($fees as $fee): ?>
         <div class="fee-card">
             <div class="fee-header">
-                <h2><?= $fee["description"] ?></h2>
+                <h2><?= $fee["fee_name"] ?></h2>
                 <i class="bi bi-folder2"></i>
             </div>
             <div class="fee-summary">
                 <h3>
-                    <strong>₱9000</strong>
+                    <strong>₱<?= number_format($fee["total_collected"], 2) ?></strong>
                     <span>/</span>
-                    <strong>₱15000</strong>
+                    <strong>₱<?= number_format($fee["total_to_collect"], 2) ?></strong>
                 </h3>
+                <?php
+
+                $total_due = $fee["total_collected"] + $fee["total_to_collect"];
+
+                if ($total_due > 0) {
+                    $percentage = ($fee["total_collected"] / $total_due) * 100;
+                } else {
+                    $percentage = 0;
+                }
+
+                $collected_amount = $fee["total_collected"];
+                $total_to_collect = $fee["total_to_collect"];
+                ?>
                 <div class="progress-container">
-                    <progress class="fee-progress" value="9000" max="15000"></progress>
-                    <span>60%</span>
+                    <progress class="fee-progress" value="<?= $collected_amount ?>"
+                        max="<?= $total_to_collect ?>"></progress>
+                    <span><?= number_format($percentage, 0) ?>%</span>
                 </div>
             </div>
             <a href="./fee_details.php?fee_id=<?= $fee["id"] ?>" class="btn btn-full btn-icon btn-md btn-primary">

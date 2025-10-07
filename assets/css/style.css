@@ -66,6 +66,34 @@ a {
   cursor: pointer;
 }
 
+.fee-status {
+  padding: 0.3rem 1.2rem;
+  width: 8rem;
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border-radius: 3rem;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.fee-status.unpaid {
+  background: #f3abab;
+  color: darkred;
+  border: 1px solid darkred;
+}
+
+.fee-status.paid {
+  background: lightgreen;
+  color: darkgreen;
+  border: 1px solid darkgreen;
+}
+
+.fee-status.partial {
+  background: #f5e89c;
+  color: goldenrod;
+  border: 1px solid goldenrod;
+}
 button {
   border: none;
   cursor: pointer;
@@ -733,6 +761,7 @@ table.table-striped tbody tr:nth-child(even) {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 .metric-cards .card {
   border-radius: 3px;
@@ -767,4 +796,121 @@ table.table-striped tbody tr:nth-child(even) {
 }
 .metric-cards .card .card-right i {
   font-size: 1.8rem;
+}
+
+/* STUDENT PROFILE CSS */
+.student-container {
+  /* border: 1px solid black; */
+  height: 85%;
+  padding: 1.5rem;
+}
+.student-wrapper {
+  display: grid;
+  grid-template-columns: 24rem 1fr;
+  gap: 1.5rem;
+  height: 100%;
+}
+.student-profile {
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100%;
+  box-shadow: var(--shadow-sm);
+  /* border: 1px solid black; */
+}
+.student-profile .top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.student-profile .top .background {
+  height: 12rem;
+  width: 100%;
+  border: none;
+  /* border-radius: 5px; */
+  background: linear-gradient(
+    to right bottom,
+    var(--color-brand-400),
+    var(--color-brand-800)
+  );
+  box-shadow: var(--shadow-md);
+}
+.student-profile .top img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+  border: 3px solid var(--zinc-0);
+  border-radius: 50%;
+  margin-top: -6rem;
+  box-shadow: var(--shadow-md);
+}
+.student-profile h2 {
+  margin: 1.5rem 0;
+  text-align: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--zinc-200);
+  font-weight: 400;
+}
+.student-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+.student-info .info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.student-info .info i {
+  font-size: 1.4rem;
+  background: var(--zinc-100);
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+}
+.student-info .info span {
+  color: var(--zinc-600);
+}
+.student-fees-wrapper {
+  height: 100%;
+  padding: 0 1rem;
+}
+.student-fees-wrapper .table-title {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+.student-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.student-fees-tab {
+  width: 100%;
+  max-width: 20rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.student-fees-tab button {
+  padding: 0.7rem 1.4rem;
+  border-left: 1px solid var(--zinc-300);
+  cursor: pointer;
+  background: var(--zinc-100);
+}
+.student-fees-tab .btn-tab.active {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+}
+.student-fees-tab button:first-child {
+  border-left: none;
+}
+.student-table-wrapper {
+  height: 60vh;
+  overflow-y: scroll;
 }

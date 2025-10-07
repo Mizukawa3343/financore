@@ -6,6 +6,7 @@ include_once "../../includes/header.php";
 
 $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
 $students_list = get_all_students_by_department_id($conn, $_SESSION['department_id']);
+
 ?>
 <div class="section-header">
     <h1 class="title">Students</h1>
@@ -48,7 +49,8 @@ $students_list = get_all_students_by_department_id($conn, $_SESSION['department_
                             <td><?= $student["course_name"] ?></td>
                             <td><?= $student["year"] ?></td>
                             <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a href="#" class="btn btn-icon btn-sm btn-secondary">
+                                <a href="./student_profile.php?student_id=<?= $student["id"] ?>" class="btn btn-icon btn-sm
+                                btn-secondary">
                                     <i class="bi bi-person-circle"></i>
                                     <span>view profile</span>
                                 </a>
@@ -140,6 +142,7 @@ $students_list = get_all_students_by_department_id($conn, $_SESSION['department_
             searching: true,
             ordering: true,
             info: true,
+            pageLength: 6, // ✅ Show only 5 entries by default
             columnDefs: [
                 { orderable: false, targets: -1 },
                 {
@@ -150,6 +153,7 @@ $students_list = get_all_students_by_department_id($conn, $_SESSION['department_
                 }
             ]
         });
+
 
         const openModalBtn = $("#btn-student");
         const closeModalBtn = $(".close-modal");
