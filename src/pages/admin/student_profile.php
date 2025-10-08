@@ -10,7 +10,7 @@ if (!isset($student_id) || $student_id == "") {
 include_once "../../includes/header.php";
 
 $student = get_student_info_by_id($conn, $student_id);
-
+$fees = get_outstanding_fees_by_student_id($conn, $student_id);
 
 ?>
 <div class="section-header">
@@ -94,24 +94,33 @@ $student = get_student_info_by_id($conn, $student_id);
                                 <tr>
                                     <th>Fee</th>
                                     <th>Amount</th>
+                                    <th>Balance</th>
                                     <th>Due date</th>
                                     <th>Status</th>
                                     <th>ACtion</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Bicol Youth for Technology Expo</td>
-                                    <td>1000</td>
-                                    <td>October 15, 2025</td>
-                                    <td>unpaid</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-icon btn-success">
-                                            <i class="bi bi-credit-card-2-front-fill"></i>
-                                            <span>Pay</span>
-                                        </button>
-                                    </td>
-                                </tr>
+                                <?php foreach ($fees as $fee): ?>
+                                    <tr>
+                                        <td><?= $fee["fee_name"] ?></td>
+                                        <td><?= $fee["amount_due"] ?></td>
+                                        <td><?= $fee["current_balance"] ?></td>
+                                        <td><?= $fee["due_date"] ?></td>
+                                        <td>
+                                            <p class="fee-status <?= $fee["status"] ?>"><?= $fee["status"] ?></p>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-icon btn-success btn-pay"
+                                                data-fees-id="<?= $fee["fees_id"] ?>"
+                                                data-fees-amount="<?= $fee["current_balance"] ?>">
+                                                <i class="bi bi-credit-card-2-front-fill"></i>
+                                                <span>Pay</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                <?php endforeach; ?>
 
                             </tbody>
                         </table>
@@ -157,6 +166,34 @@ $student = get_student_info_by_id($conn, $student_id);
 
 </div>
 
+<div class="modal-overlay payment-modal hide">
+    <div class="modal">
+        <button class="close-modal"><i class="bi bi-x"></i></button>
+        <h2 class="modal-title">Process payment</h2>
+        <form id="payment-form">
+            <input type="hidden" name="student_id" value="<?= $student_id ?>">
+            <input type="hidden" name="fees_id" id="fees_id">
+            <div class="row-col">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount" />
+            </div>
+            <div class="row-col">
+                <label for="payment_method">Payment method</label>
+                <select name="payment_method" id="payment_method">
+                    <option value="Cash">Cash</option>
+                    <option value="Gcash">Gcash</option>
+                </select>
+            </div>
+
+
+            <div class="form-btn">
+                <button type="submit" class="btn btn-md btn-primary">confirm</button>
+                <button type="button" class="btn btn-md btn-secondary btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 
@@ -174,6 +211,56 @@ $student = get_student_info_by_id($conn, $student_id);
             $(".tab-pane").removeClass("active");
             $("#" + target).addClass("active");
         });
+
+        $(".btn-pay").on("click", function () {
+            const fees_id = $(this).data("fees-id");
+            const fees_amount = $(this).data("fees-amount");
+            $(".payment-modal").removeClass("hide");
+            $("#amount").val(fees_amount);
+            $("#fees_id").val(fees_id);
+        });
+
+        // Close Modal
+        $(".close-modal").on("click", function () {
+            $(".payment-modal").addClass("hide");
+        });
+
+        $(".btn-cancel").on("click", function () {
+            $(".payment-modal").addClass("hide");
+
+        });
+
+        $(".payment-modal").on("click", function (e) {
+            if ($(e.target).is($(".payment-modal"))) {
+                $(".payment-modal").addClass("hide");
+            }
+        });
+
+        $("#payment-form").on("submit", function (e) {
+            e.preventDefault();
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                url: "/financore/src/handler/process_payment.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.open(`./receipt.php?receipt_id=${response.receipt_id}`, "_blank");
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
+
+        })
+
     });
 </script>
 

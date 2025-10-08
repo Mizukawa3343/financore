@@ -262,7 +262,7 @@ function get_student_info_by_id($conn, $student_id)
 {
     $sql = "
     SELECT
-    s.profile,
+    s.picture,
         s.student_id, -- The actual student number
         CONCAT(s.first_name, ' ', s.last_name) AS student_name,
         s.year,
@@ -283,4 +283,34 @@ function get_student_info_by_id($conn, $student_id)
 
     // Fetch a single row
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_outstanding_fees_by_student_id($conn, $student_id)
+{
+    $sql = "
+    SELECT
+        sf.fees_id,
+        ft.description AS fee_name,
+        sf.amount_due,          -- The original amount of the fee
+        sf.current_balance,     -- The remaining amount the student still owes
+        ft.due_date,
+        sf.status
+    FROM
+        student_fees sf
+    JOIN
+        fees_type ft ON sf.fees_id = ft.id
+    WHERE
+        sf.student_id = ?
+        -- Selects fees that are either entirely 'unpaid' OR paid 'partial'ly
+        AND sf.status IN ('unpaid', 'partial')
+        -- Ensures we only return fees where the remaining balance is greater than zero
+        AND sf.current_balance > 0.00
+    ORDER BY
+        ft.due_date ASC;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
