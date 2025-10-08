@@ -248,7 +248,7 @@ $fees = get_outstanding_fees_by_student_id($conn, $student_id);
                 dataType: "json",
                 success: function (response) {
                     if (response.status) {
-                        window.open(`./receipt.php?receipt_id=${response.receipt_id}`, "_blank");
+                        window.open(`./receipt.php?receipt_id=${response.receipt_id}&student_id=${response.student_id}&transaction_id=${response.transaction_id}`, "_blank");
                         window.location.reload();
                     } else {
                         window.location.reload();

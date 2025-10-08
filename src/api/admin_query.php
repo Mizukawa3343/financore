@@ -314,3 +314,87 @@ function get_outstanding_fees_by_student_id($conn, $student_id)
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+// RECEIPTS QUERY
+function get_students_data_for_receipt($conn, $student_id)
+{
+    $sql = "
+    SELECT
+    s.student_id,
+    CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+    s.year AS student_year,
+    c.name AS course
+FROM
+    students s
+JOIN
+    courses c ON CONVERT(s.course, UNSIGNED INTEGER) = c.id
+WHERE
+    s.id = ?;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_transaction_data_for_receipt($conn, $transaction_id)
+{
+    $sql = "
+    SELECT
+    pt.amount_paid,
+    pt.transaction_date AS date,
+    pt.student_fees_id,
+    pt.recorded_by_user_id,
+    u.full_name AS processed_by
+FROM
+    payment_transaction pt
+JOIN
+    users u ON pt.recorded_by_user_id = u.id
+WHERE
+    pt.id = ?;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$transaction_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_student_fee_details_for_receipt($conn, $student_id, $fees_id)
+{
+    $sql = "
+        SELECT
+            sf.*,
+            ft.description AS fee_description
+        FROM
+            student_fees sf
+        JOIN
+            fees_type ft ON sf.fees_id = ft.id
+        WHERE
+            sf.student_id = ? AND sf.fees_id = ?
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id, $fees_id]);
+
+    // The returned array will contain:
+    // id, student_id, fees_id, amount_due, current_balance, status, assigned_at, AND fee_description
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_receipt_number_for_receipt($conn, $receipt_id)
+{
+    $sql = "
+    SELECT
+    receipt_number
+FROM
+    receipts
+WHERE
+    id = ?;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$receipt_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}

@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "type" => "success",
             "message" => "Payment successfully recorded. Receipt No: {$receiptNumber}"
         ];
-        echo json_encode(["status" => true, "receipt_id" => $new_receipt_id]);
+        echo json_encode(["status" => true, "receipt_id" => $new_receipt_id, "student_id" => $student_id, "transaction_id" => $new_transaction_id]);
         exit;
 
     } catch (Exception $e) {
