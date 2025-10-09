@@ -236,7 +236,8 @@ function get_students_assigned_to_fee($conn, $fee_id, $department_id)
         s.student_id,             -- The actual student number
         s.last_name,
         s.first_name,
-        s.year,                   -- Year level from students table
+        s.year,
+        s.course_id,                   -- Year level from students table
         c.name AS course_name,    -- Course name from courses table
         sf.status                 -- Payment status of this specific fee
     FROM
@@ -262,16 +263,20 @@ function get_student_info_by_id($conn, $student_id)
 {
     $sql = "
     SELECT
-    s.picture,
-        s.student_id, -- The actual student number
+        s.picture,
+        s.first_name,
+        s.last_name,
+        s.student_id,
+        s.gender, -- The actual student number
         CONCAT(s.first_name, ' ', s.last_name) AS student_name,
         s.year,
         c.name AS course,
+        c.id AS course_id, -- Added: The course ID (from the courses table)
         d.acronym AS department_acronym
     FROM
         students s
     JOIN
-        courses c ON s.course = c.id
+        courses c ON CONVERT(s.course, UNSIGNED INTEGER) = c.id
     JOIN
         department d ON s.department_id = d.id
     WHERE

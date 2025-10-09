@@ -66,6 +66,74 @@ a {
   cursor: pointer;
 }
 
+/* GLOBAL INPUT, SELECT, TEXTAREA STYLES */
+input,
+select,
+textarea {
+  width: 100%; /* <--- THIS IS THE PRIMARY STYLE TO OVERRIDE IN DATATABLES */
+  padding: 0.925rem 0.75rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  color: var(--zinc-800);
+  background-color: var(--zinc-0);
+  border: 1px solid var(--zinc-300);
+  border-radius: 0.3rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Hover state */
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--color-brand-200);
+}
+
+/* Focus state */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-brand-200);
+  box-shadow: 0 0 0 3px var(--zinc-200); /* <--- THIS BOX-SHADOW IS ALSO A PROBLEM */
+}
+
+/* Disabled state */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: var(--zinc-100);
+  color: var(--zinc-500);
+  cursor: not-allowed;
+}
+
+/* Textarea resizing */
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* File input styling */
+input[type="file"] {
+  border: 1px dashed var(--zinc-300);
+  padding: 0.75rem;
+  background-color: var(--zinc-50);
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--zinc-200);
+  color: var(--zinc-700);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: var(--zinc-300);
+}
+
 .fee-status {
   padding: 0.3rem 1.2rem;
   width: 8rem;
@@ -200,21 +268,53 @@ table.dataTable thead .sorting_desc:after {
   color: var(--zinc-600);
 }
 
+/* Info text */
+.dataTables_wrapper .dataTables_info {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: var(--zinc-500);
+}
+
+/* === FIXED: DataTables specific input styling - override global styles === */
+.dataTables_wrapper .dataTables_length select,
 .dataTables_wrapper .dataTables_filter input {
-  margin-left: 0.5rem;
+  /* CRITICAL: Overrides global width: 100% */
+  width: auto !important;
+
+  /* CRITICAL: Resets box-shadow for unfocused state to prevent inheritance */
+  box-shadow: none !important;
+
+  /* Resetting font styles to ensure they match DataTables surrounding text, if needed */
+  font-size: 1.3rem;
+  font-family: inherit;
+
+  /* Core styling (kept from your original override) */
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--zinc-300);
   border-radius: 0.4rem;
   background: var(--zinc-0);
   color: var(--zinc-800);
-}
-
-.dataTables_wrapper .dataTables_filter input:focus {
-  border-color: var(--zinc-500);
   outline: none;
+  transition: border-color 0.2s;
 }
 
-/* Info text */
+/* FIX: Ensure the focus state explicitly overrides the global focus box-shadow */
+.dataTables_wrapper .dataTables_length select:focus,
+.dataTables_wrapper .dataTables_filter input:focus {
+  /* Override global focus style and ensure no brand color */
+  border-color: var(--zinc-500);
+  box-shadow: 0 0 0 2px var(--zinc-200); /* Use neutral zinc shadow */
+}
+
+/* Ensure the disabled state also uses the non-global background/color */
+.dataTables_wrapper .dataTables_length select:disabled,
+.dataTables_wrapper .dataTables_filter input:disabled {
+  background-color: var(--zinc-100);
+  color: var(--zinc-500);
+  cursor: not-allowed;
+}
+
+/* Info text (repeated, keeping for completeness but moved up) */
 .dataTables_wrapper .dataTables_info {
   margin-top: 1rem;
   font-size: 1.2rem;
@@ -437,30 +537,6 @@ table.table-striped tbody tr:nth-child(even) {
 
 .modal form label {
   font-size: 1.4rem;
-}
-
-.modal form input {
-  padding: 1rem;
-  font-size: 1.4rem;
-  border: 1px solid var(--zinc-200);
-  border-radius: 3px;
-  outline: none;
-  transition: all 0.3s ease;
-  color: var(--zinc-800);
-  font-family: inherit;
-  width: 100%;
-}
-
-.modal form select {
-  padding: 1rem;
-  font-size: 1.4rem;
-  border: 1px solid var(--zinc-200);
-  border-radius: 3px;
-  outline: none;
-  transition: all 0.3s ease;
-  background: var(--zinc-0);
-  color: var(--zinc-600);
-  font-family: inherit;
 }
 
 .modal form .form-btn {

@@ -13,6 +13,8 @@ include_once "../../includes/header.php";
 $student = get_student_info_by_id($conn, $student_id);
 $fees = get_outstanding_fees_by_student_id($conn, $student_id);
 $transaction_history = get_student_transaction_history($conn, $student_id);
+$courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
+
 
 ?>
 <div class="section-header">
@@ -23,14 +25,17 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
             <h1 class="title">Student profile</h1>
         </div>
         <div class="right">
-            <button class="btn btn-md btn-icon btn-secondary">
+            <button class="btn btn-md btn-icon btn-secondary btn-edit" data-student-id="<?= $student["student_id"] ?>"
+                data-first-name="<?= $student["first_name"] ?>" data-last-name="<?= $student["last_name"] ?>"
+                data-course-id="<?= $student["course_id"] ?>" data-student-year="<?= $student["year"] ?>"
+                data-student-gender="<?= $student["gender"] ?>">
                 <i class="bi bi-pencil-square"></i>
                 <span>Edit</span>
             </button>
-            <button class="btn btn-md btn-icon btn-danger">
+            <!-- <button class="btn btn-md btn-icon btn-danger">
                 <i class="bi bi-trash"></i>
                 <span>Delete</span>
-            </button>
+            </button> -->
         </div>
     </div>
 </div>
@@ -198,6 +203,72 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
     </div>
 </div>
 
+<div class="modal-overlay edit-student-modal hide">
+    <div class="modal">
+        <button class="close-modal"><i class="bi bi-x"></i></button>
+        <h2 class="modal-title">Edit student data</h2>
+        <form id="edit-student-form">
+            <div class="row-col">
+                <label for="student_id">Student id</label>
+                <input type="text" id="student_id" name="student_id" placeholder="Enter student id" />
+            </div>
+            <div class="col-2">
+                <div class="row-col">
+                    <label for="first_name">Firstname</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter firstname" />
+                </div>
+
+                <div class="row-col">
+                    <label for="last_name">Lastname</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Enter lastname" />
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="row-col">
+                    <label for="course">Course</label>
+                    <select name="course" id="course">
+                        <option value="">select course</option>
+                        <?php foreach ($courses as $course): ?>
+                            <option value="<?= $course['id']; ?>"><?= $course['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="row-col">
+                    <label for="year">Year</label>
+                    <select name="year" id="year">
+                        <option value="">Select year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+
+                <div class="row-col">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender">
+                        <option value="">select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row-col">
+                <label for="profile">Student Picture</label>
+                <input type="file" name="profile" id="profile">
+            </div>
+
+            <div class="form-btn">
+                <button type="submit" class="btn btn-md btn-primary">Save</button>
+                <button type="button" class="btn btn-md btn-secondary btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 
@@ -224,19 +295,45 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
             $("#fees_id").val(fees_id);
         });
 
+        $(".btn-edit").on("click", function () {
+            $(".edit-student-modal").removeClass("hide");
+            const student_id = $(this).data("student-id");
+            const first_name = $(this).data("first-name");
+            const last_name = $(this).data("last-name");
+            const course_id = $(this).data("course-id");
+            const year = $(this).data("student-year");
+            const gender = $(this).data("student-gender");
+
+            $("#student_id").val(student_id);
+            $("#first_name").val(first_name);
+            $("#last_name").val(last_name);
+            $("#course").val(course_id);
+            $("#year").val(year);
+            $("#gender").val(gender);
+        })
+
         // Close Modal
         $(".close-modal").on("click", function () {
             $(".payment-modal").addClass("hide");
+            $(".edit-student-modal").addClass("hide");
         });
 
         $(".btn-cancel").on("click", function () {
             $(".payment-modal").addClass("hide");
+            $(".edit-student-modal").addClass("hide");
 
         });
 
         $(".payment-modal").on("click", function (e) {
             if ($(e.target).is($(".payment-modal"))) {
                 $(".payment-modal").addClass("hide");
+            }
+        });
+
+
+        $(".edit-student-modal").on("click", function (e) {
+            if ($(e.target).is($(".edit-student-modal"))) {
+                $(".edit-student-modal").addClass("hide");
             }
         });
 
@@ -262,6 +359,15 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
                     console.error("AJAX Error: ", status, error);
                 }
             })
+
+        })
+
+        $("#edit-student-form").on("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData($(this)[0]);
+
+            console.log(formData);
 
         })
 
