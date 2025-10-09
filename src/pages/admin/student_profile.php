@@ -45,7 +45,7 @@ $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
         <div class="student-profile">
             <div class="top">
                 <div class="background"></div>
-                <img src="/financore/assets/system-images/profile.png" alt="">
+                <img src="<?= $student["picture"] ?>" alt="">
             </div>
             <h2><?= $student["student_name"] ?></h2>
             <div class=" student-info">
@@ -208,6 +208,7 @@ $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
         <button class="close-modal"><i class="bi bi-x"></i></button>
         <h2 class="modal-title">Edit student data</h2>
         <form id="edit-student-form">
+            <input type="hidden" value="<?= $student_id ?>" name="row_id">
             <div class="row-col">
                 <label for="student_id">Student id</label>
                 <input type="text" id="student_id" name="student_id" placeholder="Enter student id" />
@@ -258,7 +259,7 @@ $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
 
             <div class="row-col">
                 <label for="profile">Student Picture</label>
-                <input type="file" name="profile" id="profile">
+                <input type="file" name="student_profile" id="profile">
             </div>
 
             <div class="form-btn">
@@ -353,6 +354,7 @@ $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
                         window.location.reload();
                     } else {
                         window.location.reload();
+
                     }
                 },
                 error: function (xhr, status, error) {
@@ -367,7 +369,25 @@ $courses = get_courses_by_department_id($conn, $_SESSION['department_id']);
 
             const formData = new FormData($(this)[0]);
 
-            console.log(formData);
+            $.ajax({
+                url: "/financore/src/handler/edit_student.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        // window.location.reload();
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
 
         })
 
