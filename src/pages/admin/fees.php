@@ -31,14 +31,14 @@ $fees = get_all_fees_by_department_id($conn, $_SESSION['department_id']);
 
                 $total_due = $fee["total_collected"] + $fee["total_to_collect"];
 
+                $collected_amount = $fee["total_collected"];
+                $total_to_collect = $fee["total_to_collect"];
                 if ($total_due > 0) {
-                    $percentage = ($fee["total_collected"] / $total_due) * 100;
+                    $percentage = ($collected_amount / $total_to_collect) * 100;
                 } else {
                     $percentage = 0;
                 }
 
-                $collected_amount = $fee["total_collected"];
-                $total_to_collect = $fee["total_to_collect"];
                 ?>
                 <div class="progress-container">
                     <progress class="fee-progress" value="<?= $collected_amount ?>"

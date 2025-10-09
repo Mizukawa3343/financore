@@ -37,23 +37,23 @@ WHERE
 function get_all_fees_by_department_id($conn, $department_id)
 {
     $sql = "
-    SELECT
-        ft.id,
-        ft.description AS fee_name,
-        -- Calculate Total Collected: Use COALESCE to return 0.00 if the sum is NULL
-        COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
-        -- Calculate Total To Collect: Use COALESCE to return 0.00 if the sum is NULL
-        COALESCE(SUM(sf.current_balance), 0.00) AS total_to_collect
-    FROM
-        fees_type ft
-    LEFT JOIN
-        student_fees sf ON ft.id = sf.fees_id
-    WHERE
-        ft.department_id = ?
-    GROUP BY
-        ft.id, ft.description
-    ORDER BY
-        ft.id;
+        SELECT
+            ft.id,
+            ft.description AS fee_name,
+            -- Calculate Total Collected: amount paid by students
+            COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
+            -- Calculate Total To Collect: static sum of all assigned fees (amount_due)
+            COALESCE(SUM(sf.amount_due), 0.00) AS total_to_collect
+        FROM
+            fees_type ft
+        LEFT JOIN
+            student_fees sf ON ft.id = sf.fees_id
+        WHERE
+            ft.department_id = ?
+        GROUP BY
+            ft.id, ft.description
+        ORDER BY
+            ft.id;
     ";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);
@@ -395,6 +395,49 @@ WHERE
     ";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$receipt_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// STUDENT PERSONAL PAYMENT HISTORY
+
+function get_student_transaction_history($conn, $student_id)
+{
+    $sql = "
+    SELECT 
+    pt.id AS transaction_id,
+    pt.student_fees_id,
+    pt.transaction_date,
+    pt.amount_paid,
+    pt.payment_method,
+    pt.receipt_id,
+    pt.recorded_by_user_id
+FROM payment_transaction pt
+WHERE pt.student_id = ?
+ORDER BY pt.transaction_date DESC;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_fee_type_by_id($conn, $student_id)
+{
+    $sql = "
+    SELECT * FROM fees_type WHERE id = ? 
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_user_by_id($conn, $user_id)
+{
+    $sql = "SELECT * FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$user_id]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }

@@ -2,6 +2,7 @@
 session_start();
 require_once "../../config/dbconn.php";
 require_once "../../api/admin_query.php";
+include_once "../../util/helper.php";
 $student_id = $_GET['student_id'] ?? "";
 if (!isset($student_id) || $student_id == "") {
     header("Location: ./students.php");
@@ -11,6 +12,7 @@ include_once "../../includes/header.php";
 
 $student = get_student_info_by_id($conn, $student_id);
 $fees = get_outstanding_fees_by_student_id($conn, $student_id);
+$transaction_history = get_student_transaction_history($conn, $student_id);
 
 ?>
 <div class="section-header">
@@ -141,19 +143,21 @@ $fees = get_outstanding_fees_by_student_id($conn, $student_id);
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>October 15, 2025</td>
-                                    <td>Bicol Youth for Technology Expo</td>
-                                    <td>1000</td>
-                                    <td>Vanessa cerdan</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-icon btn-secondary">
-                                            <i class="bi bi-credit-card-2-front-fill"></i>
-                                            <span>Receipt</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
+                                <?php foreach ($transaction_history as $th): ?>
+                                    <tr>
+                                        <td><?= format_readable_datetime($th["transaction_date"]) ?></td>
+                                        <td><?= get_fee_by_id($conn, $th["student_fees_id"])["description"] ?></td>
+                                        <td><?= number_format($th["amount_paid"], 2) ?></td>
+                                        <td><?= get_user_by_id($conn, $th["recorded_by_user_id"])["full_name"] ?></td>
+                                        <td>
+                                            <a href="./receipt.php?student_id=<?= $student_id ?>&transaction_id=<?= $th["transaction_id"] ?>&receipt_id=<?= $th["receipt_id"] ?>"
+                                                class="btn btn-sm btn-icon btn-secondary">
+                                                <i class="bi bi-credit-card-2-front-fill"></i>
+                                                <span>Receipt</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
