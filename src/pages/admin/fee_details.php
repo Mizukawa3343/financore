@@ -48,7 +48,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <p>Amount</p>
                 <h2><?= $fee["fee_unit_amount"] ?></h2>
             </div>
-            <div class="card-right">
+            <div class="card-right amount-icon">
                 <i class="bi bi-cash"></i>
             </div>
         </div>
@@ -57,7 +57,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <p>Total collected</p>
                 <h2><?= $fee["total_collected"] ?></h2>
             </div>
-            <div class="card-right">
+            <div class="card-right collected-icon">
                 <i class="bi bi-piggy-bank"></i>
             </div>
         </div>
@@ -66,7 +66,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <p>Total to collect</p>
                 <h2><?= $fee["total_to_collect"] ?></h2>
             </div>
-            <div class="card-right">
+            <div class="card-right to-collect-icon">
                 <i class="bi bi-bank"></i>
             </div>
         </div>
@@ -75,10 +75,11 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <p>Total students</p>
                 <h2><?= $fee["total_students_assigned"] ?></h2>
             </div>
-            <div class="card-right">
+            <div class="card-right students-icon">
                 <i class="bi bi-people"></i>
             </div>
         </div>
+
     </div>
 
 

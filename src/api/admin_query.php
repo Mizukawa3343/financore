@@ -237,7 +237,7 @@ function get_students_assigned_to_fee($conn, $fee_id, $department_id)
         s.last_name,
         s.first_name,
         s.year,
-        s.course_id,                   -- Year level from students table
+        s.course,                   -- Year level from students table
         c.name AS course_name,    -- Course name from courses table
         sf.status                 -- Payment status of this specific fee
     FROM
@@ -446,3 +446,180 @@ function get_user_by_id($conn, $user_id)
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+// DASHBOARD QUERY
+
+function get_total_students_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT COUNT(*) AS total_students FROM students WHERE department_id = ?;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_total_collected_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    COALESCE(SUM(pt.amount_paid), 0.00) AS total_revenue_current_month
+FROM
+    payment_transaction pt
+JOIN
+    students s ON pt.student_id = s.id
+WHERE
+    s.department_id = ? -- Filter by the authorized Department ID
+    AND YEAR(pt.transaction_date) = YEAR(CURDATE())
+    AND MONTH(pt.transaction_date) = MONTH(CURDATE());
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_outstanding_balance_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    COALESCE(SUM(sf.current_balance), 0.00) AS total_outstanding_balance
+FROM
+    student_fees sf
+JOIN
+    students s ON sf.student_id = s.id
+WHERE
+    s.department_id = ?; -- Filter by the authorized Department ID
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_pending_payments_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    COUNT(sf.id) AS count_pending_fees,
+    COALESCE(SUM(sf.current_balance), 0.00) AS total_pending_amount
+FROM
+    student_fees sf
+JOIN
+    students s ON sf.student_id = s.id
+JOIN
+    fees_type ft ON sf.fees_id = ft.id
+WHERE
+    s.department_id = ? -- Filter by the authorized Department ID
+    AND sf.current_balance > 0.00 -- Must have an outstanding balance
+    -- Condition to find fees that are either OVERDUE or DUE SOON (next 30 days)
+    AND (
+        ft.due_date < CURDATE() -- Fees that are Overdue
+        OR ft.due_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY) -- Fees due within the next 30 days
+    );
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_today_transaction_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    COUNT(pt.id) AS total_transactions_today,
+    COALESCE(SUM(pt.amount_paid), 0.00) AS total_revenue_today
+FROM
+    payment_transaction pt
+JOIN
+    students s ON pt.student_id = s.id
+WHERE
+    s.department_id = ? -- Filter by the authorized Department ID
+    -- Filters the transactions to only include those that occurred on the current date
+    AND DATE(pt.transaction_date) = CURDATE();
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_overdue_fees_by_department($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    COUNT(sf.id) AS count_overdue_fees,
+    COALESCE(SUM(sf.current_balance), 0.00) AS total_overdue_amount
+FROM
+    student_fees sf
+JOIN
+    students s ON sf.student_id = s.id
+JOIN
+    fees_type ft ON sf.fees_id = ft.id
+WHERE
+    s.department_id = ? -- Filter by the authorized Department ID
+    AND sf.current_balance > 0.00 -- Must have an outstanding balance
+    AND ft.due_date < CURDATE(); -- The due date must be before today (i.e., overdue)
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_total_assigned_fees_by_department($conn, $department_id)
+{
+    $sql = "
+   SELECT
+    COALESCE(SUM(sf.amount_due), 0.00) AS total_fees_assigned
+FROM
+    student_fees sf
+JOIN
+    students s ON sf.student_id = s.id
+WHERE
+    s.department_id = ?; -- Filter by the authorized Department ID
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function get_total_fully_paid_students_by_department($conn, $department_id)
+{
+    $sql = "
+   SELECT
+    COUNT(s.id) AS count_fully_paid_students
+FROM
+    students s
+WHERE
+    s.department_id = ? -- Filter by the authorized Department ID
+    -- Exclude any student who has a single fee with a current balance greater than 0.00
+    AND s.id NOT IN (
+        SELECT
+            sf.student_id
+        FROM
+            student_fees sf
+        WHERE
+            sf.current_balance > 0.00
+        GROUP BY
+            sf.student_id
+    );
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+

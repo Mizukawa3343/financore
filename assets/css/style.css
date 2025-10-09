@@ -673,7 +673,7 @@ table.table-striped tbody tr:nth-child(even) {
 }
 
 .side-bar .nav-list .nav-item:last-child {
-  margin-top: auto;
+  margin-top: 5rem;
 
   a {
     margin: 0.85rem 0;
@@ -854,12 +854,8 @@ table.table-striped tbody tr:nth-child(even) {
 .metric-cards .card .card-left h2 {
   font-size: 1.8rem;
 }
+/* General styles for the icon container (keeps size, shape, shadow, and text color) */
 .metric-cards .card .card-right {
-  background: linear-gradient(
-    to right bottom,
-    var(--color-brand-400),
-    var(--color-brand-600)
-  );
   color: var(--zinc-0);
   height: 4rem;
   width: 4rem;
@@ -869,9 +865,32 @@ table.table-striped tbody tr:nth-child(even) {
   padding: 0.5rem;
   border-radius: 3px;
   box-shadow: var(--shadow-md);
+  /* The default background is removed here or overridden below */
 }
 .metric-cards .card .card-right i {
   font-size: 1.8rem;
+}
+
+/* --- Specific Color Styles --- */
+
+/* Amount - Use a standard Blue/Purple */
+.amount-icon {
+  background: linear-gradient(to right bottom, #4a90e2, #2a6496);
+}
+
+/* Total Collected - Use a Success Green */
+.collected-icon {
+  background: linear-gradient(to right bottom, #5cb85c, #3c763d);
+}
+
+/* Total to Collect - Use a Yellow/Orange for "potential" */
+.to-collect-icon {
+  background: linear-gradient(to right bottom, #f0ad4e, #d4872c);
+}
+
+/* Total Students - Use a distinctive Teal/Cyan */
+.students-icon {
+  background: linear-gradient(to right bottom, #5bc0de, #31708f);
 }
 
 /* STUDENT PROFILE CSS */
@@ -989,4 +1008,92 @@ table.table-striped tbody tr:nth-child(even) {
 .student-table-wrapper {
   height: 60vh;
   overflow-y: scroll;
+}
+
+/* ADMIN DASHBOARD */
+
+.admin-dashboard {
+  /* border: 1px solid black; */
+  padding: 1rem;
+}
+
+.admin-metric-cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.admin-metric-cards-wrapper .card {
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  padding: 0.85rem;
+}
+.admin-metric-cards-wrapper .card h2 {
+  font-size: 1.8rem;
+}
+.admin-metric-cards-wrapper .card h2 span {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--zinc-600);
+}
+.admin-metric-cards-wrapper .card p {
+  color: var(--zinc-600);
+}
+/* Keep the general styles for consistency, but remove the background gradient */
+.admin-metric-cards-wrapper .card i {
+  height: 4rem;
+  width: 4rem;
+  border: none;
+  border-radius: 3px;
+  /* Removed the general background property */
+  color: var(--zinc-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* --- Specific Icon Color Styles --- */
+
+.students-icon {
+  /* Blue/Purple Gradient */
+  background: linear-gradient(to right bottom, #5c67f0, #3b42a8);
+}
+
+.collected-icon {
+  /* Green/Teal Gradient */
+  background: linear-gradient(to right bottom, #48c774, #2a9d8f);
+}
+
+.outstanding-icon {
+  /* Orange/Red Gradient (for alerts/warnings) */
+  background: linear-gradient(to right bottom, #ff9900, #e76f51);
+}
+
+.collection-rate-icon {
+  /* Pink/Fuchsia Gradient */
+  background: linear-gradient(to right bottom, #ff69b4, #cc0066);
+}
+
+.pending-icon {
+  /* Light Blue/Cyan Gradient */
+  background: linear-gradient(to right bottom, #53c2c5, #0097a7);
+}
+
+.transaction-icon {
+  /* Yellow/Gold Gradient */
+  background: linear-gradient(to right bottom, #ffd700, #ffa500);
+}
+
+.paid-students-icon {
+  /* Darker Green/Success Gradient */
+  background: linear-gradient(to right bottom, #70e000, #38b000);
+}
+
+.overdues-icon {
+  /* Red/Deep Red Gradient (for critical alerts) */
+  background: linear-gradient(to right bottom, #e03131, #990000);
 }
