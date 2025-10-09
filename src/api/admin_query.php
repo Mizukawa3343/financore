@@ -622,4 +622,31 @@ WHERE
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function get_recent_transaction($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    pt.id AS transaction_id,
+    pt.receipt_id,
+    pt.student_id,
+    s.picture AS student_picture,
+    CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+    pt.amount_paid,
+    pt.transaction_date
+FROM
+    payment_transaction pt
+JOIN
+    students s ON pt.student_id = s.id
+WHERE
+    pt.department_id = ? -- e.g., 1 for CBMIT
+ORDER BY
+    pt.transaction_date DESC
+LIMIT 6;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll();
+}
 

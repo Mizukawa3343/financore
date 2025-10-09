@@ -22,6 +22,7 @@ error_reporting(E_ALL);
     <script src="/financore/src/libraries/datatables.min.js"></script>
     <script src="/financore/src/libraries/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -94,7 +95,7 @@ error_reporting(E_ALL);
                         </a>
 
 
-                        <a href="/financore/src/handler/logout.php" class="nav-link">
+                        <a href="/financore/src/handler/logout.php" class="nav-link logout">
                             <i class="bi bi-door-open"></i>
                             <span>Logout</span>
                         </a>
@@ -104,7 +105,19 @@ error_reporting(E_ALL);
             </nav>
         </aside>
         <header class="header">
-            <h2>HEADER</h2>
+            <div class="header-container">
+                <div class="header-links">
+                    <i class="bi bi-person"></i>
+                    <i class="bi bi-calendar"></i>
+                </div>
+                <div class="user-profile">
+                    <img src="/financore/assets/system-images/student-default-profile.png" alt="">
+                    <div class="user-description">
+                        <h3>John Karl Bulalacao</h3>
+                        <p>superadmin</p>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <main class="main">
