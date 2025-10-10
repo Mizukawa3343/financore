@@ -81,7 +81,7 @@ error_reporting(E_ALL);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ctc-feex/src/modules/admin-pages/settings.php"
+                        <a class="nav-link" href="/financore/src/pages/admin/user_profile.php"
                             data-tooltip="Configure Settings">
                             <i class="bi bi-person-gear"></i>
                             <span>Profile</span>

@@ -119,7 +119,7 @@ $recent_transaction = get_recent_transaction($conn, $department_id);
 
                     <h5>₱<?= number_format($rt["amount_paid"], 2) ?></h5>
                     <p><?= format_readable_date($rt["transaction_date"]) ?></p>
-                    <a class="btn btn-sm btn-secondary"><i class="bi bi-receipt"></i></a>
+                    <a href="./receipt.php?student_id=<?= $rt["student_id"] ?>&receipt_id=<?= $rt["receipt_id"] ?>&transaction_id=<?= $rt["transaction_id"] ?>" class="btn btn-sm btn-secondary"><i class="bi bi-receipt"></i></a>
                 </div>
             <?php endforeach; ?>
         </div>

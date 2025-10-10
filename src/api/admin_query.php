@@ -8,6 +8,7 @@ function get_courses_by_department_id($conn, $department_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
 function get_all_students_by_department_id($conn, $department_id)
 {
     $sql = "
@@ -32,6 +33,14 @@ WHERE
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_department_by_id($conn, $department_id) {
+    $sql = "SELECT * FROM department WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function get_all_fees_by_department_id($conn, $department_id)

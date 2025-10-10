@@ -110,7 +110,8 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                             <p class="fee-status <?= $student["status"] ?>"><?= $student["status"] ?></p>
                         </td>
                         <td style="display: flex; align-items: center; justify-content: center; ">
-                            <a href="#" class="btn btn-icon btn-sm btn-secondary">
+                            <a href="./student_profile.php?student_id=<?= $student["id"] ?>" class="btn btn-icon
+                            btn-sm btn-secondary">
                                 <i class="bi bi-person-circle"></i>
                                 <span>view profile</span>
                             </a>
