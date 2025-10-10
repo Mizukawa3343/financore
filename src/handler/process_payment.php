@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user_id = $_SESSION["user_id"] ?? 1; // Assuming an admin is logged in (use actual session user ID)
     $transaction_date = new DateTime();
     $philippines_time_string = $transaction_date->format('Y-m-d H:i:s');
+    $department_id = $_SESSION["department_id"];
 
     if (empty($student_id) || empty($student_fees_row_id) || !is_numeric($amount_paid) || $amount_paid <= 0) {
         echo json_encode(["status" => false, "message" => "Invalid payment data."]);
@@ -27,8 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // --- STEP 1: INSERT into payment_transaction (Set receipt_id to NULL initially) ---
         $transaction_sql = "INSERT INTO payment_transaction (
-            student_id, student_fees_id, amount_paid, payment_method, recorded_by_user_id, transaction_date
-        ) VALUES (?, ?, ?, ?, ?, ?)";
+            student_id, student_fees_id, amount_paid, payment_method, recorded_by_user_id, transaction_date, department_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $transaction_stmt = $conn->prepare($transaction_sql);
         $transaction_stmt->execute([
@@ -37,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $amount_paid,
             $payment_method,
             $user_id,
-            $philippines_time_string
+            $philippines_time_string,
+            $department_id
         ]);
 
         $new_transaction_id = $conn->lastInsertId();

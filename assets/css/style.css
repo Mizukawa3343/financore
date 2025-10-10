@@ -138,30 +138,48 @@ input[type="file"]::file-selector-button:hover {
   padding: 0.3rem 1.2rem;
   width: 8rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   border-radius: 3rem;
-  font-weight: bold;
+  font-weight: 600;
   margin: 0 auto;
+  letter-spacing: 0.5px;
 }
 
+/* UNPAID */
 .fee-status.unpaid {
-  background: #f3abab;
-  color: darkred;
-  border: 1px solid darkred;
+  background: #fce4e4; /* softer red background for readability */
+  color: #b71c1c; /* deep red text */
+  border: 1px solid #b71c1c;
 }
 
+/* PAID */
 .fee-status.paid {
-  background: lightgreen;
-  color: darkgreen;
-  border: 1px solid darkgreen;
+  background: #d9f7d9; /* light minty green background */
+  color: #1b5e20; /* dark green text */
+  border: 1px solid #1b5e20;
 }
 
+/* PARTIAL */
 .fee-status.partial {
-  background: #f5e89c;
-  color: goldenrod;
-  border: 1px solid goldenrod;
+  background: #fff8db; /* soft warm yellow */
+  color: #b8860b; /* darker goldenrod for contrast */
+  border: 1px solid #b8860b;
 }
+
+.balance.paid {
+  background: #deffde;
+  font-weight: 600;
+}
+.balance.partial {
+  background: #ffedbe;
+  font-weight: 600;
+}
+.balance.unpaid {
+  background: #ffd4d4;
+  font-weight: 600;
+}
+
 button {
   border: none;
   cursor: pointer;

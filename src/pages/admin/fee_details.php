@@ -3,6 +3,7 @@ session_start();
 include_once "../../includes/header.php";
 require_once "../../config/dbconn.php";
 require_once "../../api/admin_query.php";
+include_once "../../util/helper.php";
 $fee_id = $_GET['fee_id'];
 if (!isset($fee_id)) {
     header("Location: ./fees.php");
@@ -12,6 +13,7 @@ $fee = get_fee_details_by_id($conn, $fee_id, $_SESSION["department_id"]);
 $courses = get_courses_by_department_id($conn, $_SESSION["department_id"]);
 $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_id"]);
 
+
 ?>
 <div class="section-header">
     <div class="fee-details-wrapper">
@@ -20,10 +22,11 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
             <i class="bi bi-chevron-right"></i>
             <h1 class="title"><?= $fee["fee_name"] ?></h1>
             <i class="bi bi-chevron-right"></i>
-            <span><?= $fee["due_date"] ?></span>
+            <span><?= format_readable_date($fee["due_date"]) ?></span>
         </div>
         <div class="right">
-            <button class="btn btn-sm btn-icon btn-secondary">
+            <button class="btn btn-sm btn-icon btn-secondary btn-update" data-fee-name="<?= $fee["fee_name"] ?>"
+                data-fee-amount="<?= $fee["fee_unit_amount"] ?>" data-due-date="<?= $fee["due_date"] ?>">
                 <i class="bi bi-pencil-square"></i>
                 <span>update fee</span>
             </button>
@@ -31,7 +34,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <i class="bi bi-person-add"></i>
                 <span>assign fee</span>
             </button>
-            <button class="btn btn-sm btn-icon  btn-success">
+            <button class="btn btn-sm btn-icon  btn-success btn-collected" data-fee-id="<?= $fee_id ?>">
                 <i class="bi bi-check2"></i>
                 <span>mark as collected</span>
             </button>
@@ -94,6 +97,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                     <th>course</th>
                     <th>year</th>
                     <th style="text-align: center;">status</th>
+                    <th>Balance</th>
                     <th>action</th>
                 </tr>
             </thead>
@@ -101,23 +105,29 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 <?php foreach ($students as $student): ?>
                     <tr>
                         <td></td>
-                        <td><?= $student["student_id"] ?></td>
-                        <td><?= $student["last_name"] ?></td>
-                        <td><?= $student["first_name"] ?></td>
-                        <td><?= $student["course_name"] ?></td>
-                        <td><?= $student["year"] ?></td>
+                        <td><?= htmlspecialchars($student["student_id"]) ?></td>
+                        <td><?= htmlspecialchars($student["last_name"]) ?></td>
+                        <td><?= htmlspecialchars($student["first_name"]) ?></td>
+                        <td><?= htmlspecialchars($student["course_name"]) ?></td>
+                        <td><?= htmlspecialchars($student["year"]) ?></td>
                         <td>
-                            <p class="fee-status <?= $student["status"] ?>"><?= $student["status"] ?></p>
+                            <p class="fee-status <?= htmlspecialchars($student["status"]) ?>">
+                                <?= ucfirst(htmlspecialchars($student["status"])) ?>
+                            </p>
                         </td>
-                        <td style="display: flex; align-items: center; justify-content: center; ">
-                            <a href="./student_profile.php?student_id=<?= $student["id"] ?>" class="btn btn-icon
-                            btn-sm btn-secondary">
+                        <td class="balance <?= htmlspecialchars($student["status"]) ?>">
+                            <?= number_format($student["current_balance"], 2) ?>
+                        </td>
+                        <td style="display: flex; align-items: center; justify-content: center;">
+                            <a href="./student_profile.php?student_id=<?= urlencode($student["id"]) ?>"
+                                class="btn btn-icon btn-sm btn-secondary">
                                 <i class="bi bi-person-circle"></i>
-                                <span>view profile</span>
+                                <span>View Profile</span>
                             </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
+
 
 
 
@@ -163,6 +173,37 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                     <?php endforeach; ?>
                 </select>
             </div>
+
+            <div class="form-btn">
+                <button type="submit" class="btn btn-md btn-primary">Save</button>
+                <button type="button" class="btn btn-md btn-secondary btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay update-modal hide">
+    <div class="modal">
+        <button class="close-modal"><i class="bi bi-x"></i></button>
+        <h2 class="modal-title">add student</h2>
+        <form id="update-fee-form">
+            <input type="hidden" name="fee_id" value="<?= $fee_id ?>">
+            <div class="row-col">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Enter description" />
+            </div>
+            <div class="col-2">
+                <div class="row-col">
+                    <label for="amount">Fee amount</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" />
+                </div>
+
+                <div class="row-col">
+                    <label for="due_date">Due date</label>
+                    <input type="date" id="due_date" name="due_date" placeholder="Enter due date" />
+                </div>
+            </div>
+
 
             <div class="form-btn">
                 <button type="submit" class="btn btn-md btn-primary">Save</button>
@@ -272,6 +313,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
         // Helper: Close modal
         function closeAssignModal() {
             $(".assign-fee-modal").addClass("hide");
+            $(".update-modal").addClass("hide");
             resetAssignForm();
         }
 
@@ -303,6 +345,70 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
                 }
             })
         });
+
+        $(".btn-update").on("click", function () {
+
+            const fee_name = $(this).data("fee-name");
+            const fee_amount = $(this).data("fee-amount");
+            const due_date = $(this).data("due-date");
+
+            $("#description").val(fee_name);
+            $("#amount").val(fee_amount);
+            $("#due_date").val(due_date);
+            console.log(due_date);
+
+
+            $(".update-modal").removeClass("hide");
+        })
+
+
+        $("#update-fee-form").on("submit", function (e) {
+            e.preventDefault();
+            const formData = $(this).serialize();
+
+            $.ajax({
+                url: "/financore/src/handler/update_fee.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
+        });
+
+        $(".btn-collected").on("click", function () {
+            const fee_id = $(this).data("fee-id");
+            const formData = {
+                fee_id
+            }
+
+
+            $.ajax({
+                url: "/financore/src/handler/mark_as_collected.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+                    if (response.status) {
+                        window.location.href = response.redirect;
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
+        })
+
     });
 </script>
 

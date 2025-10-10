@@ -35,7 +35,8 @@ WHERE
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function get_department_by_id($conn, $department_id) {
+function get_department_by_id($conn, $department_id)
+{
     $sql = "SELECT * FROM department WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);
@@ -47,22 +48,23 @@ function get_all_fees_by_department_id($conn, $department_id)
 {
     $sql = "
         SELECT
-            ft.id,
-            ft.description AS fee_name,
-            -- Calculate Total Collected: amount paid by students
-            COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
-            -- Calculate Total To Collect: static sum of all assigned fees (amount_due)
-            COALESCE(SUM(sf.amount_due), 0.00) AS total_to_collect
-        FROM
-            fees_type ft
-        LEFT JOIN
-            student_fees sf ON ft.id = sf.fees_id
-        WHERE
-            ft.department_id = ?
-        GROUP BY
-            ft.id, ft.description
-        ORDER BY
-            ft.id;
+    ft.id,
+    ft.description AS fee_name,
+    -- Calculate Total Collected: amount paid by students
+    COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
+    -- Calculate Total To Collect: static sum of all assigned fees (amount_due)
+    COALESCE(SUM(sf.amount_due), 0.00) AS total_to_collect
+FROM
+    fees_type ft
+LEFT JOIN
+    student_fees sf ON ft.id = sf.fees_id
+WHERE
+    ft.department_id = ?
+    AND ft.status = 0 -- *** NEW: Filters to include only fee types where the administrative status is 0 ***
+GROUP BY
+    ft.id, ft.description
+ORDER BY
+    ft.id;
     ";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);
@@ -248,7 +250,8 @@ function get_students_assigned_to_fee($conn, $fee_id, $department_id)
         s.year,
         s.course,                   -- Year level from students table
         c.name AS course_name,    -- Course name from courses table
-        sf.status                 -- Payment status of this specific fee
+        sf.status,
+        sf.current_balance                 -- Payment status of this specific fee
     FROM
         student_fees sf
     JOIN
@@ -605,25 +608,61 @@ WHERE
 
 function get_total_fully_paid_students_by_department($conn, $department_id)
 {
+    //     $sql = "
+//    SELECT
+//     COUNT(s.id) AS count_fully_paid_students
+// FROM
+//     students s
+// WHERE
+//     s.department_id = ? -- Filter by the authorized Department ID
+//     -- Exclude any student who has an outstanding balance on an ACTIVE fee (status = 0)
+//     AND s.id NOT IN (
+//         SELECT
+//             sf.student_id
+//         FROM
+//             student_fees sf
+//         JOIN
+//             fees_type ft ON sf.fees_id = ft.id  -- Join to check the fee's administrative status
+//         WHERE
+//             sf.current_balance > 0.00
+//             AND ft.status = 0                   -- *** NEW FILTER: Only check status for active fees ***
+//         GROUP BY
+//             sf.student_id
+//     );
+//     ";
+
     $sql = "
-   SELECT
+SELECT
     COUNT(s.id) AS count_fully_paid_students
 FROM
     students s
 WHERE
     s.department_id = ? -- Filter by the authorized Department ID
-    -- Exclude any student who has a single fee with a current balance greater than 0.00
+    
+    -- CONDITION 1: The student MUST NOT have any outstanding balance on an ACTIVE fee (ft.status = 0).
     AND s.id NOT IN (
         SELECT
             sf.student_id
         FROM
             student_fees sf
+        JOIN
+            fees_type ft ON sf.fees_id = ft.id
         WHERE
             sf.current_balance > 0.00
+            AND ft.status = 0 -- Only look at balances for active fees
         GROUP BY
             sf.student_id
+    )
+    
+    -- CONDITION 2: The student MUST have at least one active fee (ft.status = 0) assigned to be considered in this count.
+    AND EXISTS (
+        SELECT 1
+        FROM student_fees sf_active
+        JOIN fees_type ft_active ON sf_active.fees_id = ft_active.id
+        WHERE sf_active.student_id = s.id
+          AND ft_active.status = 0 -- Check if they have been assigned any ACTIVE fee
     );
-    ";
+";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);

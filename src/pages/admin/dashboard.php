@@ -84,7 +84,8 @@ $recent_transaction = get_recent_transaction($conn, $department_id);
         </div>
         <div class="card">
             <div class="card-data">
-                <h2><?= $transaction_today["total_transactions_today"] ?> <span>1000 total revenue</span> </h2>
+                <h2><?= $transaction_today["total_transactions_today"] ?>
+                    <span><?= $transaction_today["total_revenue_today"] ?> total revenue</span> </h2>
                 <p>Transaction today</p>
             </div>
             <i class="bi bi-calendar transaction-icon"></i>
@@ -119,7 +120,8 @@ $recent_transaction = get_recent_transaction($conn, $department_id);
 
                     <h5>₱<?= number_format($rt["amount_paid"], 2) ?></h5>
                     <p><?= format_readable_date($rt["transaction_date"]) ?></p>
-                    <a href="./receipt.php?student_id=<?= $rt["student_id"] ?>&receipt_id=<?= $rt["receipt_id"] ?>&transaction_id=<?= $rt["transaction_id"] ?>" class="btn btn-sm btn-secondary"><i class="bi bi-receipt"></i></a>
+                    <a href="./receipt.php?student_id=<?= $rt["student_id"] ?>&receipt_id=<?= $rt["receipt_id"] ?>&transaction_id=<?= $rt["transaction_id"] ?>"
+                        class="btn btn-sm btn-secondary"><i class="bi bi-receipt"></i></a>
                 </div>
             <?php endforeach; ?>
         </div>
