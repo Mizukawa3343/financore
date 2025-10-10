@@ -59,8 +59,7 @@ error_reporting(E_ALL);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ctc-feex/src/modules/admin-pages/reports.php"
-                            data-tooltip="View Reports">
+                        <a class="nav-link" href="/financore/src/pages/admin/reports.php" data-tooltip="View Reports">
                             <i class="bi bi-file-earmark-bar-graph"></i>
                             <span>Reports</span>
                         </a>

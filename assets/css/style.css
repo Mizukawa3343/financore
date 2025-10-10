@@ -66,6 +66,14 @@ a {
   cursor: pointer;
 }
 
+#toast-container {
+  width: 100%;
+}
+
+#toast-container > .toast {
+  margin: 0 auto;
+}
+
 /* GLOBAL INPUT, SELECT, TEXTAREA STYLES */
 input,
 select,

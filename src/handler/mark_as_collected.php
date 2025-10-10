@@ -29,7 +29,13 @@ try {
     $total_outstanding = (int) $fee["outstanding_fee_count"];
 
     if ($total_assigned_count === 0) {
-        throw new Exception("Cannot mark as collected — this fee type is not assigned to any students.");
+        $_SESSION['toastr'] = [
+            "type" => "error",
+            "message" => "Cannot mark as collected — this fee type is not assigned to any students."
+        ];
+        echo json_encode(["status" => false]);
+        exit;
+
     }
 
     if ($total_outstanding > 0) {

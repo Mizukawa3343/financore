@@ -8,6 +8,16 @@ function get_courses_by_department_id($conn, $department_id)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function get_student_by_id($conn, $student_id)
+{
+    $sql = "SELECT * FROM students WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$student_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
 
 function get_all_students_by_department_id($conn, $department_id)
 {
@@ -698,3 +708,90 @@ LIMIT 6;
     return $stmt->fetchAll();
 }
 
+// REPORTS QUERY
+function get_monthly_transaction($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    *
+FROM
+    payment_transaction
+WHERE
+    -- 1. Get the first day of the current month
+    transaction_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+    
+    -- 2. Get the first day of the *next* month (exclusive end date)
+    AND transaction_date < DATE_ADD(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 1 MONTH)
+	AND department_id = ?;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function fee_summary_report($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    FT.description AS Fee_Name,
+    FT.amount AS Fee_Base_Amount,
+    FT.due_date AS Due_Date,
+    COUNT(SF.id) AS Assigned_Students_Count,
+    SUM(SF.amount_due) AS Total_Due_for_Fee,
+    SUM(SF.amount_due - SF.current_balance) AS Total_Collected,
+    SUM(SF.current_balance) AS Remaining_Balance
+FROM
+    fees_type FT
+JOIN
+    department D ON FT.department_id = D.id
+JOIN
+    student_fees SF ON FT.id = SF.fees_id
+WHERE
+    D.id = ? -- Filter by the Admin's department
+GROUP BY
+    FT.description, FT.amount, FT.due_date
+ORDER BY
+    FT.due_date ASC;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function student_balances_report($conn, $department_id)
+{
+    $sql = "
+    SELECT
+    S.student_id AS Student_ID,
+    S.last_name,
+    S.first_name,
+    C.name AS Course_Name,
+    FT.description AS Fee_Name,
+    SF.amount_due AS Total_Fee_Amount,
+    (SF.amount_due - SF.current_balance) AS Amount_Paid,
+    SF.current_balance AS Current_Balance,
+    FT.due_date AS Fee_Due_Date,
+    SF.status AS Fee_Status
+FROM
+    student_fees SF
+JOIN
+    students S ON SF.student_id = S.id
+JOIN
+    fees_type FT ON SF.fees_id = FT.id
+JOIN
+    courses C ON S.course = C.id -- Assuming S.course stores the course ID
+WHERE
+    S.department_id = ? -- Filter by the Admin's department
+    AND SF.current_balance > 0.00 -- Only show fees with an outstanding balance
+ORDER BY
+    S.last_name, SF.current_balance DESC;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
