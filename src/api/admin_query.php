@@ -217,29 +217,36 @@ function get_fee_details_by_id($conn, $fee_id, $department_id)
 {
     $sql = "
     SELECT
-        -- Fee Details
-        ft.description AS fee_name,
-        ft.amount AS fee_unit_amount,
-        ft.due_date,
-        
-        -- Aggregated Metrics
-        COUNT(sf.student_id) AS total_students_assigned,
+    -- Fee Details (Use data from the assigned fee record)
+    ft.description AS fee_name,
+    sf.amount_due AS fee_unit_amount_when_assigned, -- Use student-specific amount
+    ft.due_date,                                   -- Keep general due date for context
+    
+    -- Aggregated Metrics
+    COUNT(sf.student_id) AS total_students_assigned,
 
-        -- Total Collected (Payments Received)
-        COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
-        
-        -- Total To Collect (Remaining Balance)
-        COALESCE(SUM(sf.current_balance), 0.00) AS total_to_collect
-        
-    FROM
-        fees_type ft
-    LEFT JOIN
-        student_fees sf ON ft.id = sf.fees_id
-    WHERE
-        ft.id = ?                -- Filter by Fee ID
-        AND ft.department_id = ? -- Authorization Check
-    GROUP BY
-        ft.id, ft.description, ft.amount, ft.due_date; -- Must group by all selected non-aggregate fields
+    -- Total Due (Sum of the assigned amount for all students)
+    COALESCE(SUM(sf.amount_due), 0.00) AS total_amount_due,
+    
+    -- Total Collected (Payments Received)
+    COALESCE(SUM(sf.amount_due - sf.current_balance), 0.00) AS total_collected,
+    
+    -- Total To Collect (Remaining Balance)
+    COALESCE(SUM(sf.current_balance), 0.00) AS total_to_collect
+    
+FROM
+    fees_type ft
+JOIN
+    student_fees sf ON ft.id = sf.fees_id -- Use INNER JOIN here to only count assigned fees
+WHERE
+    ft.id = ?                -- Filter by Fee ID
+    AND ft.department_id = ? -- Authorization Check
+GROUP BY
+    ft.description,
+    sf.amount_due, -- GROUP BY the student-specific amount
+    ft.due_date
+ORDER BY
+    sf.amount_due DESC;
     ";
 
     $stmt = $conn->prepare($sql);

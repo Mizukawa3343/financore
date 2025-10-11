@@ -26,7 +26,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
         </div>
         <div class="right">
             <button class="btn btn-sm btn-icon btn-secondary btn-update" data-fee-name="<?= $fee["fee_name"] ?>"
-                data-fee-amount="<?= $fee["fee_unit_amount"] ?>" data-due-date="<?= $fee["due_date"] ?>">
+                data-fee-amount="<?= $fee["fee_unit_amount_when_assigned"] ?>" data-due-date="<?= $fee["due_date"] ?>">
                 <i class="bi bi-pencil-square"></i>
                 <span>update fee</span>
             </button>
@@ -49,7 +49,7 @@ $students = get_students_assigned_to_fee($conn, $fee_id, $_SESSION["department_i
         <div class="card">
             <div class="card-left">
                 <p>Amount</p>
-                <h2><?= $fee["fee_unit_amount"] ?></h2>
+                <h2><?= $fee["fee_unit_amount_when_assigned"] ?></h2>
             </div>
             <div class="card-right amount-icon">
                 <i class="bi bi-cash"></i>
