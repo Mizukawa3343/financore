@@ -1,4 +1,5 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -112,10 +113,10 @@ error_reporting(E_ALL);
                     <i class="bi bi-calendar"></i>
                 </div>
                 <div class="user-profile">
-                    <img src="/financore/assets/system-images/student-default-profile.png" alt="">
+                    <img src="<?= $_SESSION["profile"] ?>" alt="">
                     <div class="user-description">
-                        <h3>John Karl Bulalacao</h3>
-                        <p>superadmin</p>
+                        <h3><?= $_SESSION["full_name"] ?></h3>
+                        <p><?= $_SESSION["role"] ?></p>
                     </div>
                 </div>
             </div>

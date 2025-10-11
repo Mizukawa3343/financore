@@ -27,6 +27,7 @@ function get_all_students_by_department_id($conn, $department_id)
     s.student_id,
     s.last_name,
     s.first_name,
+    s.picture,
     s.gender,
     c.name AS course_name,
     s.year,
@@ -772,9 +773,11 @@ function student_balances_report($conn, $department_id)
 {
     $sql = "
     SELECT
+    S.id,
     S.student_id AS Student_ID,
     S.last_name,
     S.first_name,
+    S.year,
     C.name AS Course_Name,
     FT.description AS Fee_Name,
     SF.amount_due AS Total_Fee_Amount,
@@ -806,6 +809,40 @@ ORDER BY
 function payment_history($conn, $department_id)
 {
     $sql = "SELECT * FROM payment_transaction WHERE department_id = ? ORDER BY transaction_date DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function students_with_overdues_fee($conn, $department_id)
+{
+    $sql = "
+    SELECT
+	s.id,
+    s.student_id AS student_id,
+    CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+    c.name AS course,
+    s.year,
+    ft.description AS fee_name,
+    sf.current_balance AS balance,
+    ft.due_date
+FROM
+    student_fees sf
+JOIN
+    students s ON sf.student_id = s.id
+JOIN
+    fees_type ft ON sf.fees_id = ft.id
+LEFT JOIN 
+    courses c ON s.course = c.id
+WHERE
+    s.department_id = ? -- Filter by the admin's department
+    AND sf.current_balance > 0              -- Only include fees with an outstanding balance
+    AND ft.due_date < CURDATE()             -- CRITICAL: Filter where the due date is in the past (overdue)
+ORDER BY
+    ft.due_date ASC,  -- Order by the oldest overdue fees first
+    student_name ASC;
+    ";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$department_id]);
 

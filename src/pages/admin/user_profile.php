@@ -18,7 +18,7 @@ $department = get_department_by_id($conn, $_SESSION["department_id"]);
     <div class="student-profile">
         <div class="top">
             <div class="background"></div>
-            <img src="/financore/assets/system-images/student-default-profile.png" alt="">
+            <img src="<?= $user["profile"] ?>" alt="">
         </div>
         <h2><?= $user["full_name"] ?></h2>
         <div class=" student-info">
@@ -59,7 +59,7 @@ $department = get_department_by_id($conn, $_SESSION["department_id"]);
         <div class="user-settings">
             <div>
                 <h3 class="box-title">update user data</h3>
-                <form>
+                <form class="update-user-form">
                     <div class="col-2">
                         <div class="row-col">
                             <label for="full_name">Fullname</label>
@@ -110,4 +110,43 @@ $department = get_department_by_id($conn, $_SESSION["department_id"]);
         </div>
     </div>
 </div>
-<?php include_once "../../includes/footer.php"; ?>
+
+<script>
+    $(document).ready(function () {
+        $(".update-user-form").on("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData($(this)[0]);
+            console.log(formData);
+
+            $.ajax({
+                url: "/financore/src/handler/update_user.php",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        // window.location.reload();
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error: ", status, error);
+                }
+            })
+
+        })
+
+    })
+</script>
+<?php if (isset($_SESSION['toastr'])): ?>
+    <script>
+        toastr["<?= $_SESSION['toastr']['type'] ?>"]("<?= $_SESSION['toastr']['message'] ?>");
+    </script>
+    <?php unset($_SESSION['toastr']); // <-- reset happens here ?>
+<?php endif; ?>
+<?php include_once "../../includes/footer.php" ?>
