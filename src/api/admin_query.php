@@ -220,10 +220,12 @@ function get_fee_details_by_id($conn, $fee_id, $department_id)
     SELECT
     -- Fee Details (Use data from the assigned fee record)
     ft.description AS fee_name,
-    sf.amount_due AS fee_unit_amount_when_assigned, -- Use student-specific amount
-    ft.due_date,                                   -- Keep general due date for context
+    -- We must select a non-aggregated amount for the fee details view
+    -- Use the general fee amount from fees_type as a placeholder when student_fees is empty
+    ft.amount AS fee_unit_amount_when_assigned, 
+    ft.due_date,
     
-    -- Aggregated Metrics
+    -- Aggregated Metrics (Will be 0 if no student_fees records exist)
     COUNT(sf.student_id) AS total_students_assigned,
 
     -- Total Due (Sum of the assigned amount for all students)
@@ -237,17 +239,18 @@ function get_fee_details_by_id($conn, $fee_id, $department_id)
     
 FROM
     fees_type ft
-JOIN
-    student_fees sf ON ft.id = sf.fees_id -- Use INNER JOIN here to only count assigned fees
+LEFT JOIN -- ❗ CHANGED TO LEFT JOIN ❗
+    student_fees sf ON ft.id = sf.fees_id 
 WHERE
-    ft.id = ?                -- Filter by Fee ID
-    AND ft.department_id = ? -- Authorization Check
+    -- Use the correct Fee ID (5) and Department ID (2) for your test case
+    ft.id = ?
+    AND ft.department_id = ? 
 GROUP BY
     ft.description,
-    sf.amount_due, -- GROUP BY the student-specific amount
+    ft.amount, -- Group by the fees_type amount since sf.amount_due will be NULL
     ft.due_date
 ORDER BY
-    sf.amount_due DESC;
+    ft.amount DESC;
     ";
 
     $stmt = $conn->prepare($sql);

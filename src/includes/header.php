@@ -44,65 +44,125 @@ error_reporting(E_ALL);
             </div>
             <nav class="nav">
                 <ul class="nav-list">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./dashboard.php" data-tooltip="Dashboard Overview">
-                            <i class="bi bi-house-door"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./students.php" data-tooltip="Manage Students">
-                            <i class="bi bi-people"></i>
-                            <span>Students</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/financore/src/pages/admin/fees.php" data-tooltip="Fee Management">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span>Fees</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/financore/src/pages/admin/reports.php" data-tooltip="View Reports">
-                            <i class="bi bi-file-earmark-bar-graph"></i>
-                            <span>Reports</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/financore/src/pages/admin/calendar.php" data-tooltip="Calendar">
 
-                            <i class="bi bi-calendar2-event"></i>
-                            <span>Calendar</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/financore/src/pages/admin/payment_history.php"
-                            data-tooltip="Configure Settings">
-                            <i class="bi bi-clock-history"></i>
-                            <span>Payment History</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/financore/src/pages/admin/user_profile.php"
-                            data-tooltip="Configure Settings">
-                            <i class="bi bi-person-gear"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
+                    <?php if ($_SESSION["role"] === "admin"): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/dashboard.php"
+                                data-tooltip="Dashboard Overview">
+                                <i class="bi bi-house-door"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/students.php"
+                                data-tooltip="Manage Students">
+                                <i class="bi bi-people"></i>
+                                <span>Students</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/fees.php" data-tooltip="Fee Management">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Fees</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/reports.php" data-tooltip="View Reports">
+                                <i class="bi bi-file-earmark-bar-graph"></i>
+                                <span>Reports</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/calendar.php" data-tooltip="Calendar">
 
-                        <a href="/ctc-feex/src/handler/logout.handler.php" class="nav-link">
-                            <i class="bi bi-question-circle"></i>
-                            <span>Support</span>
-                        </a>
+                                <i class="bi bi-calendar2-event"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/payment_history.php"
+                                data-tooltip="Configure Settings">
+                                <i class="bi bi-clock-history"></i>
+                                <span>Payment History</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/admin/user_profile.php"
+                                data-tooltip="Configure Settings">
+                                <i class="bi bi-person-gear"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                            <a href="/ctc-feex/src/handler/logout.handler.php" class="nav-link">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Support</span>
+                            </a>
 
 
-                        <a href="/financore/src/handler/logout.php" class="nav-link logout">
-                            <i class="bi bi-door-open"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                    </section>
+                            <a href="/financore/src/handler/logout.php" class="nav-link logout">
+                                <i class="bi bi-door-open"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/superadmin/dashboard.php"
+                                data-tooltip="Dashboard Overview">
+                                <i class="bi bi-house-door"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/superadmin/users.php"
+                                data-tooltip="View Reports">
+                                <i class="bi bi-people"></i>
+                                <span>Users</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/superadmin/department.php"
+                                data-tooltip="View Reports">
+                                <i class="bi bi-buildings"></i>
+                                <span>Department</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/superadmin/reports.php"
+                                data-tooltip="View Reports">
+                                <i class="bi bi-file-earmark-bar-graph"></i>
+                                <span>Data Reports</span>
+                            </a>
+                        </li>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/financore/src/pages/superadmin/logs.php"
+                                data-tooltip="Configure Settings">
+                                <i class="bi bi-clock-history"></i>
+                                <span>Logs</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a href="/ctc-feex/src/handler/logout.handler.php" class="nav-link">
+                                <i class="bi bi-question-circle"></i>
+                                <span>Support</span>
+                            </a>
+
+
+                            <a href="/financore/src/handler/logout.php" class="nav-link logout">
+                                <i class="bi bi-door-open"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </aside>

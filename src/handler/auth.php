@@ -28,7 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["email"] = $user["email"];
             $_SESSION["token"] = $token;
 
-            $redirect = "./admin/dashboard.php";
+            if ($user["role"] === "admin") {
+                $redirect = "./admin/dashboard.php";
+            } else {
+                $redirect = "./superadmin/dashboard.php";
+            }
 
             echo json_encode([
                 "status" => true,

@@ -1422,3 +1422,18 @@ table.table-striped tbody tr:nth-child(even) {
   object-fit: cover !important;
   display: block !important;
 }
+
+.department-analytics {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-top: 2rem;
+  background: var(--zinc-0);
+  box-shadow: var(--shadow-sm);
+}
+
+.department-analytics .title {
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--zinc-600);
+  margin-left: 2rem;
+}
