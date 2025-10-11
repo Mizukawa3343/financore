@@ -1300,3 +1300,117 @@ table.table-striped tbody tr:nth-child(even) {
   background: var(--zinc-0);
   margin-bottom: 0.5rem;
 }
+
+/* ==================================================== */
+/* 0. GLOBAL/CONTAINER STYLING (Adjusted to use variables) */
+/* ==================================================== */
+
+#calendar {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 10px;
+  box-shadow: var(--shadow-md); /* Use your shadow variable */
+  border-radius: var(--border-radius);
+  background-color: var(--zinc-0);
+}
+
+.fc {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--zinc-0);
+  border-radius: var(--border-radius);
+}
+
+/* Header/Toolbar Styling */
+.fc-header-toolbar {
+  margin-bottom: 1.5em !important;
+  padding: 15px 10px;
+  background-color: var(--zinc-50); /* Light gray background */
+  border-bottom: 1px solid var(--zinc-200);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+/* Button Styling */
+.fc-toolbar-chunk .fc-button {
+  background-color: var(--color-brand-500); /* Brand blue */
+  color: var(--zinc-0);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 12px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.fc-toolbar-chunk .fc-button:hover {
+  background-color: var(--color-brand-600);
+}
+
+.fc-toolbar-chunk .fc-button-active {
+  background-color: var(--color-brand-700) !important;
+  box-shadow: none;
+}
+
+/* Day/Week Grid Header (Day names) */
+.fc-col-header-cell {
+  background-color: var(--zinc-100);
+  font-weight: 600;
+  color: var(--zinc-700);
+  border-right: 1px solid var(--zinc-300);
+}
+
+/* Day Cell Border */
+.fc-daygrid-day {
+  border: 1px solid var(--zinc-200);
+}
+
+/* ==================================================== */
+/* 3. TIMEGRID (WEEK/DAY VIEW) SPECIFIC FIXES */
+/* ==================================================== */
+
+/* 1. Fix Event Readability in Time Slots */
+.fc-timegrid-event {
+  /* Base event color updated to brand style */
+  background-color: var(--color-brand-200);
+  color: var(--color-brand-900);
+  border: 1px solid var(--color-brand-400);
+  border-left: 4px solid var(--color-brand-600); /* Stronger left border */
+  border-radius: 4px;
+  padding: 1px 3px; /* Reduce padding for smaller spaces */
+  overflow: hidden; /* Important for clean text cutoff */
+  font-size: 0.8rem; /* Slightly smaller font is better for legibility */
+}
+
+/* 2. Style the Inner Content Wrapper for better text flow */
+.fc-timegrid-event-harness .fc-event-main {
+  line-height: 1.2; /* Tighter line height to allow more lines in small space */
+  padding: 0;
+}
+
+/* 3. Style the Time Label in TimeGrid Events (e.g., 6:00 - 9:00) */
+.fc-timegrid-event .fc-event-time {
+  font-weight: 600;
+  margin-right: 4px; /* Space between time and title */
+}
+
+/* 4. Style the "All-Day" row events */
+.fc-daygrid-event {
+  background-color: var(
+    --success-500
+  ); /* Use a distinct color for all-day events */
+  color: var(--zinc-0);
+  border: none;
+  border-radius: 3px;
+  margin-bottom: 2px;
+  padding: 2px 5px;
+  font-size: 0.85em;
+  font-weight: 500;
+  white-space: nowrap; /* Prevent all-day event titles from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for titles that are too long */
+}
+
+/* 5. Time Axis (The 12AM, 1AM, 2AM labels) */
+.fc-timegrid-slot-label {
+  font-size: 0.9em;
+  color: var(--zinc-600);
+}

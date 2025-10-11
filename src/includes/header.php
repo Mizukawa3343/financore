@@ -19,12 +19,18 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/financore/assets/css/datatables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css' rel='stylesheet' /> -->
 
     <script src="/financore/src/libraries/jquery-3.7.1.min.js"></script>
     <script src="/financore/src/libraries/datatables.min.js"></script>
     <script src="/financore/src/libraries/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.js'></script>
+
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.10/index.global.min.js'></script> -->
 </head>
 
 <body>
@@ -67,8 +73,7 @@ error_reporting(E_ALL);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ctc-feex/src/modules/admin-pages/calendar.php"
-                            data-tooltip="Calendar">
+                        <a class="nav-link" href="/financore/src/pages/admin/calendar.php" data-tooltip="Calendar">
 
                             <i class="bi bi-calendar2-event"></i>
                             <span>Calendar</span>
