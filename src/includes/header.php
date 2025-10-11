@@ -19,7 +19,6 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/financore/assets/css/datatables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <!-- <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css' rel='stylesheet' /> -->
 
     <script src="/financore/src/libraries/jquery-3.7.1.min.js"></script>
     <script src="/financore/src/libraries/datatables.min.js"></script>
@@ -27,10 +26,6 @@ error_reporting(E_ALL);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.js'></script>
-
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.10/index.global.min.js'></script> -->
 </head>
 
 <body>
@@ -80,7 +75,7 @@ error_reporting(E_ALL);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ctc-feex/src/modules/admin-pages/payment_history.php"
+                        <a class="nav-link" href="/financore/src/pages/admin/payment_history.php"
                             data-tooltip="Configure Settings">
                             <i class="bi bi-clock-history"></i>
                             <span>Payment History</span>

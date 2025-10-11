@@ -802,3 +802,12 @@ ORDER BY
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function payment_history($conn, $department_id)
+{
+    $sql = "SELECT * FROM payment_transaction WHERE department_id = ? ORDER BY transaction_date DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

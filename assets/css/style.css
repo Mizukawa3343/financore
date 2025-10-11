@@ -1300,39 +1300,29 @@ table.table-striped tbody tr:nth-child(even) {
   background: var(--zinc-0);
   margin-bottom: 0.5rem;
 }
-
-/* ==================================================== */
-/* 0. GLOBAL/CONTAINER STYLING (Adjusted to use variables) */
-/* ==================================================== */
-
 #calendar {
   max-width: 1100px;
   margin: 20px auto;
   padding: 10px;
-  box-shadow: var(--shadow-md); /* Use your shadow variable */
+  box-shadow: var(--shadow-md);
   border-radius: var(--border-radius);
   background-color: var(--zinc-0);
 }
-
 .fc {
   font-family: "Poppins", sans-serif;
   background-color: var(--zinc-0);
   border-radius: var(--border-radius);
 }
-
-/* Header/Toolbar Styling */
 .fc-header-toolbar {
   margin-bottom: 1.5em !important;
   padding: 15px 10px;
-  background-color: var(--zinc-50); /* Light gray background */
+  background-color: var(--zinc-50);
   border-bottom: 1px solid var(--zinc-200);
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
 }
-
-/* Button Styling */
 .fc-toolbar-chunk .fc-button {
-  background-color: var(--color-brand-500); /* Brand blue */
+  background-color: var(--color-brand-500);
   color: var(--zinc-0);
   border: none;
   border-radius: var(--border-radius);
@@ -1340,63 +1330,42 @@ table.table-striped tbody tr:nth-child(even) {
   font-weight: 500;
   transition: background-color 0.2s;
 }
-
 .fc-toolbar-chunk .fc-button:hover {
   background-color: var(--color-brand-600);
 }
-
 .fc-toolbar-chunk .fc-button-active {
   background-color: var(--color-brand-700) !important;
   box-shadow: none;
 }
-
-/* Day/Week Grid Header (Day names) */
 .fc-col-header-cell {
   background-color: var(--zinc-100);
   font-weight: 600;
   color: var(--zinc-700);
   border-right: 1px solid var(--zinc-300);
 }
-
-/* Day Cell Border */
 .fc-daygrid-day {
   border: 1px solid var(--zinc-200);
 }
-
-/* ==================================================== */
-/* 3. TIMEGRID (WEEK/DAY VIEW) SPECIFIC FIXES */
-/* ==================================================== */
-
-/* 1. Fix Event Readability in Time Slots */
 .fc-timegrid-event {
-  /* Base event color updated to brand style */
   background-color: var(--color-brand-200);
   color: var(--color-brand-900);
   border: 1px solid var(--color-brand-400);
-  border-left: 4px solid var(--color-brand-600); /* Stronger left border */
+  border-left: 4px solid var(--color-brand-600);
   border-radius: 4px;
-  padding: 1px 3px; /* Reduce padding for smaller spaces */
-  overflow: hidden; /* Important for clean text cutoff */
-  font-size: 0.8rem; /* Slightly smaller font is better for legibility */
+  padding: 1px 3px;
+  overflow: hidden;
+  font-size: 0.8rem;
 }
-
-/* 2. Style the Inner Content Wrapper for better text flow */
 .fc-timegrid-event-harness .fc-event-main {
-  line-height: 1.2; /* Tighter line height to allow more lines in small space */
+  line-height: 1.2;
   padding: 0;
 }
-
-/* 3. Style the Time Label in TimeGrid Events (e.g., 6:00 - 9:00) */
 .fc-timegrid-event .fc-event-time {
   font-weight: 600;
-  margin-right: 4px; /* Space between time and title */
+  margin-right: 4px;
 }
-
-/* 4. Style the "All-Day" row events */
 .fc-daygrid-event {
-  background-color: var(
-    --success-500
-  ); /* Use a distinct color for all-day events */
+  background-color: var(--success-500);
   color: var(--zinc-0);
   border: none;
   border-radius: 3px;
@@ -1404,13 +1373,55 @@ table.table-striped tbody tr:nth-child(even) {
   padding: 2px 5px;
   font-size: 0.85em;
   font-weight: 500;
-  white-space: nowrap; /* Prevent all-day event titles from wrapping */
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Add ellipsis for titles that are too long */
+  text-overflow: ellipsis;
 }
-
-/* 5. Time Axis (The 12AM, 1AM, 2AM labels) */
 .fc-timegrid-slot-label {
   font-size: 0.9em;
   color: var(--zinc-600);
+}
+
+/* PAYMENT HISTORY CSS */
+/* #payment-history-table img {
+  height: 3rem;
+  width: 3rem;
+  max-width: 3rem;
+  border-radius: 50%;
+  border: none;
+  object-fit: cover;
+} */
+
+.payment-history-table-wrapper {
+  padding-right: 2rem;
+}
+/* --- CRITICAL FIX: Ensure Image Container Size is Absolute --- */
+
+/* 1. Set a fixed width for the Picture column to guide DataTables */
+#payment-history-table th:nth-child(2),
+#payment-history-table td:nth-child(2) {
+  /* Targets the Picture column */
+  width: 60px !important;
+  min-width: 60px !important; /* Prevents shrinking */
+  max-width: 60px !important; /* Prevents expanding */
+  padding: 0.5rem 0.2rem !important; /* Less padding in the cell */
+  text-align: center;
+}
+
+/* 2. Define the size and style for the image container (the <div>) */
+#payment-history-table td > div {
+  width: 40px !important; /* Force fixed width */
+  height: 40px !important; /* Force fixed height */
+  overflow: hidden !important;
+  border-radius: 50% !important;
+  margin: 0 auto !important;
+  border: 2px solid var(--zinc-300);
+}
+
+/* 3. Force the image inside the container to fill the space */
+#payment-history-table td img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
 }
