@@ -158,3 +158,35 @@ function get_all_department($conn)
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function display_department($conn)
+{
+    $sql = "
+    SELECT
+    d.id AS department_id,
+    d.department_name,
+    -- Concatenate the user's full name, and show a message if no admin is linked
+    COALESCE(u.full_name, 'No Admin Assigned') AS secretary
+FROM
+    department d
+LEFT JOIN
+    users u ON d.id = u.department_id 
+    -- ❗ Filter to ensure we only match users who are explicitly 'admin'
+    AND u.role = 'admin' 
+ORDER BY
+    d.id ASC;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_department_by_id($conn, $department_id)
+{
+    $sql = "SELECT * FROM department WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$department_id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}

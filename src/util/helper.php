@@ -34,14 +34,14 @@ function get_department_logo($department_id)
 {
     switch ($department_id) {
         case 1:
-            return "/ctc-feex/assets/system-image/cbmit.png";
+            return "/financore/assets/system-images/cbmit1.png";
         case 2:
-            return "/ctc-feex/assets/system-image/cte.png";
+            return "/financore/assets/system-images/cte.png";
         case 3:
-            return "/ctc-feex/assets/system-image/crim.png";
+            return "/financore/assets/system-images/crim.png";
         case 4:
-            return "/ctc-feex/assets/system-image/shs.png";
+            return "/financore/assets/system-images/shs.png";
         default:
-            return "/ctc-feex/assets/images/ctc-logo.png";
+            return "/financore/assets/system-images/ctc-logo.png";
     }
 }
