@@ -11,7 +11,7 @@ $student_with_balances = student_balances_report($conn, $_SESSION['department_id
 $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department_id"]);
 ?>
 <div class="section-header">
-    <h1 class="title">Students</h1>
+    <h1 class="title">Mange students</h1>
     <button class="btn btn-icon btn-md btn-primary" id="btn-student">
         <i class="bi bi-person-add"></i>
         <span>add student</span>
@@ -93,11 +93,12 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                             <td><?= $swb["Course_Name"] ?></td>
                             <td><?= $swb["Current_Balance"] ?></td>
                             <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a href="./student_profile.php?student_id=<?= $swb["id"] ?>" class="btn btn-icon btn-sm
-                                btn-secondary">
+                                <a class="btn btn-icon btn-lg btn-primary"
+                                    href="./student_profile.php?student_id=<?= $swb["id"] ?>">
                                     <i class="bi bi-person-circle"></i>
                                     <span>view profile</span>
                                 </a>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -131,7 +132,7 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                             <td><?= $swo["year"] ?></td>
                             <td><?= $swo["fee_name"] ?></td>
                             <td><?= $swo["balance"] ?></td>
-                            <td style="display: flex; align-items: center; justify-content: center; ">
+                            <td>
                                 <a href="./student_profile.php?student_id=<?= $swo["id"] ?>" class="btn btn-icon btn-sm
                                 btn-secondary">
                                     <i class="bi bi-person-circle"></i>
@@ -241,9 +242,11 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                     width: '60px' // Enforce a fixed width
                 },
                 {
-                    // Targets the Receipt ID (5) and Transaction Date (6) columns
-                    targets: [5, 6],
-                    className: 'dt-center' // Center these cells
+                    // This already targets the last column for no ordering.
+                    // ADD 'dt-center' for alignment.
+                    orderable: false,
+                    targets: -1,
+                    className: 'dt-center' // ADD THIS LINE
                 },
                 // You can add column definitions for other fixed-width columns here if needed
             ]

@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $fee_id = $_POST["fee_id"] ?? null;
     $department_id = $_SESSION["department_id"] ?? null;
 
+    $fee_name = get_fee_by_id($conn, $fee_id)["description"];
+
     // --- 2. Basic Validation ---
     if (empty($action) || empty($fee_id) || empty($department_id)) {
         echo json_encode(["status" => false, "message" => "Missing required fields for fee assignment (action, fee ID, or department ID)."]);
@@ -63,6 +65,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($assigned_count > 0) {
             $success = true;
             $message = "Fee successfully assigned to **{$assigned_count}** student(s).";
+
+            $date = (new DateTime())->format('Y-m-d H:i:s');
+
+            $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+            $logs_stmt = $conn->prepare($logsql);
+            $logs_stmt->execute([
+                "Assign fee: $fee_name to $assigned_count students",
+                $_SESSION["user_id"],
+                $_SESSION["department_id"],
+                $date
+            ]);
         } else {
             $message = "Fee assignment query executed, but **0** new fees were assigned. They may already be assigned or no students matched.";
         }

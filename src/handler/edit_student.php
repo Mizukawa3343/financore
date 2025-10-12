@@ -128,6 +128,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "message" => "Successfully updated student info"
         ];
 
+        $date = (new DateTime())->format('Y-m-d H:i:s');
+
+        $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+        $logs_stmt = $conn->prepare($logsql);
+        $logs_stmt->execute([
+            "Updated student info: $student_id",
+            $_SESSION["user_id"],
+            $_SESSION["department_id"],
+            $date
+        ]);
+
         echo json_encode(["status" => true]);
 
     } catch (PDOException $e) {

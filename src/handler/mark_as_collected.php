@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../config/dbconn.php";
+include_once "../api/admin_query.php";
 header('Content-Type: application/json');
 
 try {
@@ -13,6 +14,7 @@ try {
     }
 
     $fee_id = $_POST["fee_id"];
+    $description = get_fee_by_id($conn, $fee_id)["description"];
 
     $sql = "
         SELECT
@@ -57,6 +59,18 @@ try {
         "type" => "success",
         "message" => "Successfully marked as collected."
     ];
+
+    $date = (new DateTime())->format('Y-m-d H:i:s');
+
+    $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+    $logs_stmt = $conn->prepare($logsql);
+    $logs_stmt->execute([
+        "Marked fee as collected: $description",
+        $_SESSION["user_id"],
+        $_SESSION["department_id"],
+        $date
+    ]);
+
     echo json_encode(["status" => true, "redirect" => "./fees.php"]);
 } catch (Exception $e) {
     echo json_encode(["status" => false, "message" => $e->getMessage()]);

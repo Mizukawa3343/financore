@@ -190,3 +190,26 @@ function get_department_by_id($conn, $department_id)
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function get_all_logs($conn)
+{
+    $sql = "
+    SELECT
+    l.action,
+    u.full_name AS user_fullname,
+    d.acronym AS department_acronym,
+    l.date
+FROM
+    logs l
+JOIN
+    users u ON l.user_id = u.id
+JOIN
+    department d ON l.department_id = d.id
+ORDER BY
+    l.date DESC;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

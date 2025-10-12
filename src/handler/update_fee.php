@@ -90,6 +90,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // If we reached this point without an exception, both updates succeeded.
         $conn->commit();
 
+        $date = (new DateTime())->format('Y-m-d H:i:s');
+
+        $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+        $logs_stmt = $conn->prepare($logsql);
+        $logs_stmt->execute([
+            "Updated fee info: $fee_name",
+            $_SESSION["user_id"],
+            $_SESSION["department_id"],
+            $date
+        ]);
+
         $_SESSION['toastr'] = [
             "type" => "success",
             "message" => "Fee info and student balances successfully updated."

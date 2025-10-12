@@ -1,6 +1,6 @@
 <?php
 session_start();
-date_default_timezone_set('Asia/Manila'); // Set timezone to Philippines
+// date_default_timezone_set('Asia/Manila'); // Set timezone to Philippines
 require_once "../config/dbconn.php";
 header('Content-Type: application/json');
 
@@ -110,6 +110,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // --- 5. Finalize ---
         $conn->commit(); // COMMIT TRANSACTION
+
+        $description = get_fee_by_id($conn, $student_fees_row_id)["description"];
+
+        $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+        $logs_stmt = $conn->prepare($logsql);
+        $logs_stmt->execute([
+            "Process payment for: $description to student: $student_id",
+            $_SESSION["user_id"],
+            $_SESSION["department_id"],
+            $philippines_time_string
+        ]);
 
         $_SESSION['toastr'] = [
             "type" => "success",

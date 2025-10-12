@@ -51,6 +51,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $enrollment_stmt = $conn->prepare($enrollment_sql);
             $enrollment_stmt->execute([$new_student_row_id, $course, $school_year]);
 
+            $date = (new DateTime())->format('Y-m-d H:i:s');
+
+            $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+            $logs_stmt = $conn->prepare($logsql);
+            $logs_stmt->execute([
+                "Added new student: $first_name $last_name",
+                $_SESSION["user_id"],
+                $_SESSION["department_id"],
+                $date
+            ]);
+
+
             $_SESSION['toastr'] = [
                 "type" => "success",
                 "message" => "Student successfully added."

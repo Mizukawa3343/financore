@@ -23,6 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt = $conn->prepare($sql);
 
         if ($stmt->execute([$description, $amount, $due_date, $department_id])) {
+            $date = (new DateTime())->format('Y-m-d H:i:s');
+
+            $logsql = "INSERT INTO logs (action, user_id, department_id, date) VALUES (?, ?, ?, ?)";
+            $logs_stmt = $conn->prepare($logsql);
+            $logs_stmt->execute([
+                "Added new fee: $description",
+                $_SESSION["user_id"],
+                $_SESSION["department_id"],
+                $date
+            ]);
+
             $_SESSION['toastr'] = [
                 "type" => "success",
                 "message" => "Fee successfully added."
