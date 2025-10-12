@@ -1390,6 +1390,9 @@ table.table-striped tbody tr:nth-child(even) {
   padding-right: 2rem;
 }
 /* --- CRITICAL FIX: Ensure Image Container Size is Absolute --- */
+#students-table td:last-child {
+  width: fit-content;
+}
 
 /* 1. Set a fixed width for the Picture column to guide DataTables */
 #payment-history-table th:nth-child(2),

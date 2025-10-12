@@ -213,3 +213,90 @@ ORDER BY
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function department_performance_report($conn)
+{
+    $sql = '
+    SELECT
+    d.department_name,
+    -- Total Assigned Fees: The sum of the original amount due for all fees in that department.
+    SUM(sf.amount_due) AS "total_assigned",
+    -- Total Collected: The total amount paid is calculated by subtracting the outstanding balance from the total amount due.
+    (SUM(sf.amount_due) - SUM(sf.current_balance)) AS "total_collected",
+    -- Collection Rate: (Total Paid / Total Due) * 100
+    ROUND(( (SUM(sf.amount_due) - SUM(sf.current_balance)) / SUM(sf.amount_due) ) * 100, 2) AS "collection_rate"
+FROM
+    department d
+JOIN
+    fees_type ft ON d.id = ft.department_id
+JOIN
+    student_fees sf ON ft.id = sf.fees_id
+GROUP BY
+    d.department_name
+ORDER BY
+    "Collection rate" DESC;
+    ';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function performing_fees_report($conn)
+{
+    $sql = '
+    SELECT
+    ft.description AS "fee_name",
+    d.department_name,
+    ft.amount,
+    COUNT(sf.id) AS "student_assigned",
+    -- Use COALESCE to replace NULL total collected with 0
+    COALESCE(SUM(sf.amount_due) - SUM(sf.current_balance), 0) AS "total_collected",
+    -- Use COALESCE to replace NULL outstanding balance with 0
+    COALESCE(SUM(sf.current_balance), 0) AS "outstanding_balance"
+FROM
+    fees_type ft
+JOIN
+    department d ON ft.department_id = d.id
+LEFT JOIN
+    student_fees sf ON ft.id = sf.fees_id
+GROUP BY
+    ft.description, d.department_name, ft.amount
+ORDER BY
+    d.department_name, "outstanding_balance" DESC;
+    ';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_monthly_audit_trail($conn)
+{
+    $sql = "
+    SELECT
+    l.date AS transaction_date,
+    u.full_name AS user_fullname,
+    d.acronym AS department_acronym,
+    l.action AS action_performed
+FROM
+    logs l
+JOIN
+    users u ON l.user_id = u.id
+JOIN
+    department d ON l.department_id = d.id
+WHERE
+    -- Get the first day of the current month (e.g., '2025-10-01')
+    l.date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+    -- Get the first day of the next month (e.g., '2025-11-01')
+    -- By checking for dates LESS THAN the next month's start, we include the entire current month.
+    AND l.date < DATE_ADD(DATE_FORMAT(CURDATE(), '%Y-%m-01'), INTERVAL 1 MONTH)
+ORDER BY
+    l.date DESC
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

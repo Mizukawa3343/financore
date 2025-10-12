@@ -56,9 +56,9 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                             <td><?= $student["gender"] ?></td>
                             <td><?= $student["course_name"] ?></td>
                             <td><?= $student["year"] ?></td>
-                            <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a href="./student_profile.php?student_id=<?= $student["id"] ?>" class="btn btn-icon btn-sm
-                                btn-secondary">
+                            <td>
+                                <a href="./student_profile.php?student_id=<?= $student["id"] ?>"
+                                    class="btn btn-icon btn-sm btn-secondary">
                                     <i class="bi bi-person-circle"></i>
                                     <span>view profile</span>
                                 </a>
@@ -93,7 +93,7 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                             <td><?= $swb["Course_Name"] ?></td>
                             <td><?= $swb["Current_Balance"] ?></td>
                             <td style="display: flex; align-items: center; justify-content: center; ">
-                                <a class="btn btn-icon btn-lg btn-primary"
+                                <a class="btn btn-icon btn-sm btn-secondary"
                                     href="./student_profile.php?student_id=<?= $swb["id"] ?>">
                                     <i class="bi bi-person-circle"></i>
                                     <span>view profile</span>
@@ -246,7 +246,8 @@ $student_with_overdues = students_with_overdues_fee($conn, $_SESSION["department
                     // ADD 'dt-center' for alignment.
                     orderable: false,
                     targets: -1,
-                    className: 'dt-center' // ADD THIS LINE
+                    className: 'dt-center',
+                    width: '150px', // ADD THIS LINE
                 },
                 // You can add column definitions for other fixed-width columns here if needed
             ]

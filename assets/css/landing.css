@@ -43,6 +43,11 @@ body {
   color: var(--zinc-800);
 }
 
+.section-full {
+  height: 100vh;
+  padding: 5rem 0;
+}
+
 ul {
   list-style: none;
 }
@@ -60,7 +65,6 @@ header {
 .wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
 }
 
 .header-wrapper {
@@ -108,6 +112,24 @@ header {
 
 .nav ul li {
   font-size: 1.6rem;
+  position: relative; /* Set position for the pseudo-element */
+  padding: 0 0 5px 0; /* Add bottom padding to make space for the underline */
+}
+
+.nav ul li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0; /* Start with zero width (the animation's starting point) */
+  height: 3px; /* Thickness of the underline */
+  background-color: var(--color-brand-600); /* Use your brand color */
+  transition: width 0.3s ease-out; /* Define the smooth animation */
+}
+
+/* On hover, expand the width to 100% */
+.nav ul li:hover::after {
+  width: 100%;
 }
 
 .nav .login-link {
@@ -142,4 +164,158 @@ header {
   height: auto;
   display: block;
   margin: 20px auto;
+}
+/* ... (Keep all your :root, *, html, body, ul, a, header, .wrapper, .header-wrapper, .logo, .nav styles as they are) ... */
+
+/* --- NEW Button Style for Hero CTA --- */
+.btn-cta {
+  display: inline-block;
+  padding: 1.2rem 3.2rem; /* Reduced padding for simplicity */
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+  border: none;
+  border-radius: 5px; /* Use 5px for consistency */
+  font-size: 1.6rem;
+  font-weight: 600; /* Medium bold */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(51, 102, 255, 0.3); /* Subtle brand shadow */
+}
+
+.btn-cta:hover {
+  background: var(--color-brand-700);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(51, 102, 255, 0.4);
+}
+
+/* --- HERO SECTION STYLES --- */
+/* ... (Keep all your existing CSS code before this) ... */
+
+/* --- HERO SECTION STYLES --- */
+.hero-section {
+  padding: 9.6rem 0;
+}
+
+.hero-wrapper {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 6rem;
+  height: auto;
+}
+
+.hero-wrapper .left-content {
+  padding: 0;
+}
+
+.hero-wrapper .left-content h1 {
+  font-size: 5.2rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: var(--zinc-900);
+}
+
+/* New CSS for the highlighted word */
+.hero-wrapper .left-content h1 .highlight {
+  background-color: var(
+    --color-brand-200
+  ); /* A lighter shade of your brand blue */
+  color: var(--color-brand-800); /* Darker brand blue for contrast */
+  padding: 0.2rem 1.5rem; /* Padding around the word */
+  border-radius: 8px; /* Slightly rounded corners */
+  display: inline-block; /* Allows padding and transform */
+  transform: rotate(-2deg); /* A slight tilt for a dynamic look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-right: 1rem; /* Space after the highlighted word */
+  line-height: 1.3; /* Ensure text within highlight doesn't get cut off */
+}
+
+.hero-wrapper .left-content h1 .system-name {
+  color: var(--color-brand-600);
+}
+
+.hero-wrapper .left-content p {
+  font-size: 1.8rem;
+  color: var(--zinc-600);
+  margin-bottom: 3.2rem;
+  line-height: 1.6;
+}
+
+.hero-wrapper .left-content button {
+  display: none;
+}
+
+.hero-wrapper .right-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.hero-wrapper .right-content img {
+  height: auto;
+  max-height: 45rem;
+  width: 100%;
+  object-fit: contain;
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--zinc-200);
+
+  /* --- NEW ANIMATION PROPERTIES --- */
+  animation: breathing 8s ease-in-out infinite;
+  /* Ensure the original box-shadow uses the new value from the animation start */
+  box-shadow: 0 8px 20px rgba(100, 100, 111, 0.2);
+}
+
+/* Define the scaling animation */
+@keyframes breathing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(100, 100, 111, 0.2);
+  }
+  50% {
+    transform: scale(1.015); /* Scales up by 1.5% */
+    box-shadow: 0 10px 25px rgba(100, 100, 111, 0.3); /* Shadow also scales slightly */
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(100, 100, 111, 0.2);
+  }
+}
+
+/* ABOUT US PAGE */
+
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2rem;
+}
+.about-wrapper .left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2rem;
+}
+.about-wrapper img {
+  height: 50rem;
+  width: 100%;
+  object-fit: cover;
+}
+.about-wrapper .right {
+  padding: 8rem 0;
+}
+
+.about-wrapper .right h2 {
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--zinc-200);
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+}
+.about-wrapper .right p {
+  font-size: 1.4rem;
+  line-height: 2;
+  text-align: justify;
 }
