@@ -149,3 +149,12 @@ function get_all_users($conn)
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function get_all_department($conn)
+{
+    $sql = "SELECT * FROM department";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
