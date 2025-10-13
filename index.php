@@ -23,8 +23,8 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Researchers</a></li>
                 </ul>
                 <a class="login-link" href="./src/pages/login.php">Login</a>
             </nav>
@@ -220,10 +220,9 @@
 
 
             <div class="system-card">
-                <div class="system-card">
-                    <div class="system-screenshot">
-                        <img class="receipt-img" src="/financore/assets/system-images/receipt.png" alt="">
-                    </div>
+
+                <div class="receipt-img">
+                    <img class="" src="/financore/assets/system-images/receipt.png" alt="">
                 </div>
                 <div class="description">
                     <h3>Receipt</h3>
@@ -232,9 +231,88 @@
                         ensuring transparency and easy audit trails for all fee payments.
                     </p>
                 </div>
+
             </div>
         </div>
     </section>
+
+    <section class="researcher-section wrapper">
+        <div class="badge">
+            <i class="bi bi-people-fill"></i>
+            <span>Researchers</span>
+        </div>
+
+        <div class="members-container">
+            <div class="member-card">
+                <img src="/financore/assets/system-images/johnkarl2.png" alt="">
+                <div class="description">
+                    <h3>John Karl Bulalacao</h3>
+                    <p>Researcher & Developer</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <img src="/financore/assets/system-images/stephanie2.png" alt="">
+                <div class="description">
+                    <h3>Stephanie Barra</h3>
+                    <p>Researcher</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <img src="/financore/assets/system-images/julia2.png" alt="">
+                <div class="description">
+                    <h3>Julia Esta</h3>
+                    <p>Researcher</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <img src="/financore/assets/system-images/marie2.png" alt="">
+                <div class="description">
+                    <h3>Marie Rose Orada</h3>
+                    <p>Researcher</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="wrapper footer-wrapper">
+            <div class="footer-logo-content">
+                <div class="logo">
+                    <img src="./assets/system-images/financore-logo.png" alt="CTC | Financore Logo">
+                    <h1>Financore</h1>
+                </div>
+                <p>Digital fee collection and tracking system designed for Ceguera Technological Colleges.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Financore Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" aria-label="Financore Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="#" aria-label="Financore Instagram"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#hero-section">Home</a></li>
+                    <li><a href="#about-section">About</a></li>
+                    <li><a href="#features-section">Features</a></li>
+                    <li><a href="#researcher-section">Researchers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h3>Contact</h3>
+                <p><i class="bi bi-building"></i> Ceguera Technological Colleges</p>
+                <p><i class="bi bi-geo-alt"></i> Legazpi City, Bicol, PH</p>
+                <p><i class="bi bi-envelope"></i> support@financore.edu.ph</p>
+            </div>
+        </div>
+        <div class="footer-copyright wrapper">
+            <p>&copy; <span id="year">2025</span> Financore - All rights reserved. Developed by John Karl Bulalacao.</p>
+        </div>
+    </footer>
 
 
     <script>
