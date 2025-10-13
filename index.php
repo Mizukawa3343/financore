@@ -81,7 +81,7 @@
         </div>
     </section>
 
-    <section class="features-section wrapper section-full">
+    <section class="features-section wrapper ">
         <div class="features-wrapper">
             <div class="features-heading">
                 <div class="badge">
@@ -165,7 +165,77 @@
                 </div>
             </div>
         </div>
+
+        <div class="system-wrapper">
+            <div class="system-card">
+                <div class="system-screenshot">
+                    <img src="/financore/assets/system-images/dashboard.png" alt="">
+                </div>
+                <div class="description">
+                    <h3>Dashboard</h3>
+                    <p>Centralized management interface providing real-time visualization of fee collections, payment
+                        statuses, outstanding balances, and key financial metrics through interactive charts and summary
+                        panels. </p>
+                </div>
+            </div>
+
+            <div class="system-card">
+                <div class="description">
+                    <h3>Manage Student</h3>
+                    <p>
+                        Robust student management module allowing efficient registration, editing, and categorization of
+                        student information linked directly to fee obligations and payment tracking.
+                    </p>
+                </div>
+                <div class="system-screenshot">
+                    <img src="/financore/assets/system-images/manage-student.png" alt="">
+                </div>
+            </div>
+
+            <div class="system-card">
+                <div class="system-screenshot">
+                    <img src="/financore/assets/system-images/student-profile.png" alt="">
+                </div>
+                <div class="description">
+                    <h3>Student Profile</h3>
+                    <p>
+                        Comprehensive profile displaying individual student fee structures, payment histories,
+                        outstanding dues, and transaction details to facilitate accurate account reconciliation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="system-card">
+                <div class="description">
+                    <h3>Fee Management</h3>
+                    <p>
+                        Flexible fee configuration engine supporting various fee types, categories and departmental
+                        assignments with seamless integration to payment processing and reporting modules.
+                    </p>
+                </div>
+                <div class="system-screenshot">
+                    <img src="/financore/assets/system-images/fee-management.png" alt="">
+                </div>
+            </div>
+
+
+            <div class="system-card">
+                <div class="system-card">
+                    <div class="system-screenshot">
+                        <img class="receipt-img" src="/financore/assets/system-images/receipt.png" alt="">
+                    </div>
+                </div>
+                <div class="description">
+                    <h3>Receipt</h3>
+                    <p>
+                        Automatically generated, itemized digital receipts with transaction identifiers and timestamps
+                        ensuring transparency and easy audit trails for all fee payments.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
+
 
     <script>
         const btnMenu = document.querySelector('.btn-menu');
