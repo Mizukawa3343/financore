@@ -81,6 +81,92 @@
         </div>
     </section>
 
+    <section class="features-section wrapper section-full">
+        <div class="features-wrapper">
+            <div class="features-heading">
+                <div class="badge">
+                    <i class="bi bi-stars"></i>
+                    <span>Features</span>
+                </div>
+                <h2 class="feature-title">
+                    Empowering School Departments with Seamless Fee Management
+                </h2>
+                <p>
+                    Streamline fee collection, automate receipts, and gain instant insights with features built for
+                    Ceguera
+                    Technological Colleges’ departmental needs.
+                </p>
+            </div>
+
+            <div class="features-container">
+                <div class="feature-card">
+                    <i class="bi bi-journal-code"></i>
+                    <h3>
+                        Automated Fee Recording
+                    </h3>
+                    <p>
+                        Easily capture and record miscellaneous fee payments electronically, eliminating manual data
+                        entry errors.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="bi bi-receipt-cutoff"></i>
+                    <h3>
+                        Receipt Generation
+                    </h3>
+                    <p>
+                        Automatically generate and print official digital receipts immediately after payment
+                        confirmation.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="bi bi-shield-lock"></i>
+                    <h3>
+                        Role-Based Access Control
+                    </h3>
+                    <p>
+                        Define user roles such as departmental secretaries and superadmin, with controlled access to
+                        data and functions.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="bi bi-clock-history"></i>
+                    <h3>
+                        Payment History Tracking
+                    </h3>
+                    <p>
+                        Maintain detailed logs of all payment transactions, enabling easy auditing and record retrieval.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <h3>
+                        Real-Time Reporting and Dashboards
+                    </h3>
+                    <p>
+                        View up-to-date summaries, financial reports, and key metrics through interactive dashboards for
+                        better decision-making.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="bi bi-tags"></i>
+                    <h3>
+                        Fee Categorization and Management
+                    </h3>
+                    <p>
+                        Categorize fees by type, department, or student status to streamline collection and reporting
+                        processes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script>
         const btnMenu = document.querySelector('.btn-menu');
         const mobileNav = document.querySelector(".nav-mobile");

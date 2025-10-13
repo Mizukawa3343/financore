@@ -349,6 +349,137 @@ header {
   line-height: 2;
   text-align: justify;
 }
+.features-wrapper {
+  /* border: 1px solid black; */
+}
+.features-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-direction: column;
+}
+.features-heading .badge {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 2rem;
+  border: 2px dashed var(--color-brand-600);
+  background: var(--color-brand-100);
+  color: var(--color-brand-700);
+  border-radius: 3rem;
+}
+.features-heading h2 {
+  font-size: 2.8rem;
+  background-image: linear-gradient(
+    to right bottom,
+    var(--color-brand-500),
+    var(--color-brand-700)
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.features-heading p {
+  font-size: 1.6rem;
+  width: 50rem;
+  text-align: center;
+  color: var(--zinc-700);
+}
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 2rem 4rem;
+}
+
+.feature-card {
+  background: var(--zinc-0);
+  border: 1px solid var(--zinc-100);
+  border-radius: 3px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+/* General style for all icons (for shared properties like size/shape) */
+.feature-card i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  width: 5rem;
+  border: none;
+  border-radius: 3px;
+  /* Background will be overridden below for specific colors */
+  color: var(--zinc-0);
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Specific color assignments for each icon */
+
+/* Automated Fee Recording - Blue for Tech/Data */
+.feature-card .bi-journal-code {
+  background: #0077b6;
+  box-shadow: 0 0.5rem 1rem rgba(0, 119, 182, 0.3); /* Custom shadow for the blue */
+}
+
+/* Receipt Generation - Green for Confirmation/Finance */
+.feature-card .bi-receipt-cutoff {
+  background: #28a745;
+  box-shadow: 0 0.5rem 1rem rgba(40, 167, 69, 0.3); /* Custom shadow for the green */
+}
+
+/* Role-Based Access Control - Red/Maroon for Security */
+.feature-card .bi-shield-lock {
+  background: #dc3545;
+  box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.3); /* Custom shadow for the red */
+}
+
+/* Payment History Tracking - Amber for Time/Records */
+.feature-card .bi-clock-history {
+  background: #ffc107;
+  box-shadow: 0 0.5rem 1rem rgba(255, 193, 7, 0.3); /* Custom shadow for the amber */
+}
+
+/* Real-Time Reporting - Purple for Analytics/Insight */
+.feature-card .bi-bar-chart-line {
+  background: #6f42c1;
+  box-shadow: 0 0.5rem 1rem rgba(111, 66, 193, 0.3); /* Custom shadow for the purple */
+}
+
+/* Fee Categorization - Orange for Organization/Tags */
+.feature-card .bi-tags {
+  background: #fd7e14;
+  box-shadow: 0 0.5rem 1rem rgba(253, 126, 20, 0.3); /* Custom shadow for the orange */
+}
+.feature-card i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  width: 5rem;
+  border: none;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right bottom,
+    var(--color-brand-500),
+    var(--color-brand-700)
+  );
+  color: var(--zinc-0);
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+.feature-card h3 {
+  font-size: 1.4rem;
+}
+.feature-card p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+}
 
 @media (max-width: 768px) {
   header {
@@ -378,7 +509,9 @@ header {
     font-size: 1.6rem;
     padding: 1rem 0;
     border-bottom: 1px dashed var(--zinc-200);
+    transition: 0.2s ease-in;
   }
+
   .nav-mobile button {
     padding: 1rem;
     background: var(--color-brand-600);
@@ -393,12 +526,12 @@ header {
   }
 
   .hero-section {
-    padding: 12rem 0;
+    padding: 12rem 0 5rem 0;
   }
   .hero-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 5rem;
     padding: 0.5rem;
   }
   .hero-wrapper .left-content {
@@ -412,5 +545,16 @@ header {
   .hero-wrapper .left-content p {
     font-size: 1.5rem;
     padding: 0 2rem;
+  }
+  .about-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+  }
+  .about-wrapper .left img {
+    height: 30rem;
+  }
+  .about-wrapper .right {
+    padding: 0;
   }
 }
