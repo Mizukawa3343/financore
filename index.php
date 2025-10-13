@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./assets/css/landing.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
                 <img src="./assets/system-images/financore-logo.png" alt="CTC | Financore Logo">
                 <h1>Financore</h1>
             </div>
-            <nav class="nav">
+            <nav class="nav nav-desktop">
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
@@ -27,6 +28,14 @@
                 </ul>
                 <a class="login-link" href="./src/pages/login.php">Login</a>
             </nav>
+            <button class="btn-menu"><i class="bi bi-list"></i></button>
+        </div>
+        <div class="nav-mobile hide">
+            <a href="">Home</a>
+            <a href="">About</a>
+            <a href="">Features</a>
+            <a href="">Researchers</a>
+            <button>Login</button>
         </div>
     </header>
 
@@ -71,6 +80,15 @@
             </div>
         </div>
     </section>
+
+    <script>
+        const btnMenu = document.querySelector('.btn-menu');
+        const mobileNav = document.querySelector(".nav-mobile");
+
+        btnMenu.addEventListener('click', function () {
+            mobileNav.classList.toggle("hide");
+        })
+    </script>
 
 </body>
 

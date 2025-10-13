@@ -41,6 +41,7 @@ body {
   font-family: "Poppins", sans-serif;
   line-height: 1.6;
   color: var(--zinc-800);
+  position: relative;
 }
 
 .section-full {
@@ -60,6 +61,11 @@ a {
 header {
   background: var(--zinc-0);
   padding: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
 }
 
 .wrapper {
@@ -71,6 +77,26 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.btn-menu {
+  display: none;
+}
+
+/* NEW: Mobile Toggle Button Style */
+.menu-toggle {
+  display: none; /* Hide by default on large screens */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 3rem;
+  color: var(--zinc-800);
+  padding: 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
 }
 
 .logo {
@@ -149,6 +175,10 @@ header {
   background: var(--color-brand-700);
 }
 
+.nav-mobile {
+  display: none;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -193,7 +223,7 @@ header {
 
 /* --- HERO SECTION STYLES --- */
 .hero-section {
-  padding: 9.6rem 0;
+  padding: 17.6rem 0;
 }
 
 .hero-wrapper {
@@ -318,4 +348,69 @@ header {
   font-size: 1.4rem;
   line-height: 2;
   text-align: justify;
+}
+
+@media (max-width: 768px) {
+  header {
+    /* background: var(--color-brand-600); */
+    border-bottom: 1px solid var(--zinc-200);
+  }
+  .nav-desktop {
+    display: none;
+  }
+  .btn-menu {
+    display: block;
+    max-width: 300px;
+    font-size: 3.6rem;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--zinc-700);
+  }
+  .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    margin-top: 2rem;
+  }
+  .nav-mobile a {
+    font-size: 1.6rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--zinc-200);
+  }
+  .nav-mobile button {
+    padding: 1rem;
+    background: var(--color-brand-600);
+    color: var(--zinc-0);
+    font-size: 1.6rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 3px;
+  }
+  .nav-mobile.hide {
+    display: none;
+  }
+
+  .hero-section {
+    padding: 12rem 0;
+  }
+  .hero-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 0.5rem;
+  }
+  .hero-wrapper .left-content {
+    text-align: center;
+  }
+  .hero-wrapper .left-content h1 {
+    font-size: 3.5rem;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .hero-wrapper .left-content p {
+    font-size: 1.5rem;
+    padding: 0 2rem;
+  }
 }
