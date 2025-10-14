@@ -39,6 +39,16 @@ $name = explode(" ", $_SESSION["full_name"]);
                 <i class="bi bi-bell-fill"></i>
             </button>
 
+
+            <div class="mobile-box-notification hide">
+                <h3>Notification</h3>
+                <p class="notif-card">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt voluptatem dicta vel quod,
+                    corrupti molestias nobis architecto eveniet atque obcaecati molestiae voluptas cumque blanditiis
+                    debitis odit. Voluptate quis mollitia at!
+                </p>
+            </div>
+
         </div>
     </header>
 
@@ -56,8 +66,20 @@ $name = explode(" ", $_SESSION["full_name"]);
                     </a>
                 </nav>
 
-                <button>
+                <button class="desktop-notification">
                     <i class="bi bi-bell-fill"></i>
+                    <div class="notif-number">7</div>
                 </button>
+
+                <div class="desktop-box-notification hide">
+                    <h3>Notification</h3>
+                    <p class="notif-card">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt voluptatem dicta vel quod,
+                        corrupti molestias nobis architecto eveniet atque obcaecati molestiae voluptas cumque blanditiis
+                        debitis odit. Voluptate quis mollitia at!
+                    </p>
+                </div>
+
+
 
             </div>

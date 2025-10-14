@@ -13,10 +13,13 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
 
 ?>
 <div class="desktop-content">
-    <h1 class="title">OVERVIEW</h1>
-
-    <div class="overview-container">
-        <div class="table-wrapper">
+    <h1 class="title">Overview</h1>
+    <div class="tab">
+        <button>Fees</button>
+        <button>History</button>
+    </div>
+    <div>
+        <div class="fees">
             <h3>Student Fees</h3>
             <table>
                 <thead>
@@ -26,7 +29,7 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
                         <th>Balance</th>
                         <th>Due date</th>
                         <th>Status</th>
-                        <th>ACtion</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -39,23 +42,18 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
                             <td>
                                 <p class="fee-status <?= $fee["status"] ?>"><?= $fee["status"] ?></p>
                             </td>
-                            <td>
-                                <button class="btn btn-sm btn-icon btn-success btn-pay"
-                                    data-fees-id="<?= $fee["fees_id"] ?>" data-fees-amount="<?= $fee["current_balance"] ?>">
-                                    <i class="bi bi-credit-card-2-front-fill"></i>
-                                    <span>Pay</span>
-                                </button>
-                            </td>
+
                         </tr>
                         </tr>
                     <?php endforeach; ?>
 
                 </tbody>
             </table>
-
         </div>
-        <div class="table-wrapper">
-            <h3>Payment History</h3>
+    </div>
+    <div>
+        <div class="history">
+            <h3>Table for Payment History</h3>
             <table>
                 <thead>
                     <tr>
@@ -74,7 +72,7 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
                             <td><?= number_format($th["amount_paid"], 2) ?></td>
                             <td><?= get_user_by_id($conn, $th["recorded_by_user_id"])["full_name"] ?></td>
                             <td>
-                                <a href="./receipt.php?student_id=<?= $student_id ?>&transaction_id=<?= $th["transaction_id"] ?>&receipt_id=<?= $th["receipt_id"] ?>"
+                                <a href="./digital_receipt.php?student_id=<?= $student_id ?>&transaction_id=<?= $th["transaction_id"] ?>&receipt_id=<?= $th["receipt_id"] ?>"
                                     class="btn btn-sm btn-icon btn-secondary">
                                     <i class="bi bi-credit-card-2-front-fill"></i>
                                     <span>Receipt</span>
@@ -99,94 +97,62 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
             <table>
                 <thead>
                     <tr>
-                        <th>Fee name</th>
+                        <th>Fee</th>
                         <th>Amount</th>
+                        <th>Balance</th>
                         <th>Due date</th>
+                        <th>Status</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                    </tr>
+                    <?php foreach ($fees as $fee): ?>
+                        <tr>
+                            <td><?= $fee["fee_name"] ?></td>
+                            <td><?= $fee["amount_due"] ?></td>
+                            <td><?= $fee["current_balance"] ?></td>
+                            <td><?= $fee["due_date"] ?></td>
+                            <td>
+                                <p class="fee-status <?= $fee["status"] ?>"><?= $fee["status"] ?></p>
+                            </td>
+
+                        </tr>
+                        </tr>
+                    <?php endforeach; ?>
+
                 </tbody>
             </table>
         </div>
     </div>
     <div>
         <div class="history">
-            <h3>Table for Payment History</h3>
+            <h3>Payment History</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Fee name</th>
-                        <th>Amount</th>
-                        <th>Due date</th>
+                        <th>Date</th>
+                        <th>Fee</th>
+                        <th>Amount Paid</th>
+                        <th>Received by</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
-                    <tr>
-                        <td>Bicol Youth for Technology Expo</td>
-                        <td>1000</td>
-                        <td>October 17, 2025</td>
-                        <td>View Receipt</td>
-                    </tr>
+                    <?php foreach ($transaction_history as $th): ?>
+                        <tr>
+                            <td><?= format_readable_datetime($th["transaction_date"]) ?></td>
+                            <td><?= get_fee_by_id($conn, $th["student_fees_id"])["description"] ?></td>
+                            <td><?= number_format($th["amount_paid"], 2) ?></td>
+                            <td><?= get_user_by_id($conn, $th["recorded_by_user_id"])["full_name"] ?></td>
+                            <td>
+                                <a href="./digital_receipt.php?student_id=<?= $student_id ?>&transaction_id=<?= $th["transaction_id"] ?>&receipt_id=<?= $th["receipt_id"] ?>"
+                                    class="btn btn-sm btn-icon btn-secondary">
+                                    <i class="bi bi-credit-card-2-front-fill"></i>
+                                    <span>View Receipt</span>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -195,29 +161,64 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
 
 <script>
     $(document).ready(function () {
-        // Hide all sections except Fees by default
-        $(".history").hide();
-        $(".tab button:first").addClass("active");
+        // -----------------------------
+        // DESKTOP TAB LOGIC
+        // -----------------------------
+        const $desktopTabs = $(".desktop-content .tab button");
+        const $desktopFees = $(".desktop-content .fees");
+        const $desktopHistory = $(".desktop-content .history");
 
-        // Handle tab button click
-        $(".tab button").on("click", function () {
+        // Initialize desktop view
+        $desktopHistory.hide();
+        $desktopTabs.first().addClass("active");
+
+        // Handle tab switching for desktop
+        $desktopTabs.on("click", function () {
             const index = $(this).index();
 
-            // Remove 'active' class from all buttons
-            $(".tab button").removeClass("active");
-            // Add 'active' to the clicked one
+            // Toggle active state
+            $desktopTabs.removeClass("active");
             $(this).addClass("active");
 
-            // Hide all sections
-            $(".fees, .history").hide();
-
-            // Show the selected section based on button index
+            // Show corresponding section
             if (index === 0) {
-                $(".fees").fadeIn(200);
-            } else if (index === 1) {
-                $(".history").fadeIn(200);
+                $desktopFees.fadeIn(200);
+                $desktopHistory.hide();
+            } else {
+                $desktopFees.hide();
+                $desktopHistory.fadeIn(200);
+            }
+        });
+
+        // -----------------------------
+        // MOBILE TAB LOGIC
+        // -----------------------------
+        const $mobileTabs = $(".mobile-content .tab button");
+        const $mobileFees = $(".mobile-content .fees");
+        const $mobileHistory = $(".mobile-content .history");
+
+        // Initialize mobile view
+        $mobileHistory.hide();
+        $mobileTabs.first().addClass("active");
+
+        // Handle tab switching for mobile
+        $mobileTabs.on("click", function () {
+            const index = $(this).index();
+
+            // Toggle active state
+            $mobileTabs.removeClass("active");
+            $(this).addClass("active");
+
+            // Show corresponding section
+            if (index === 0) {
+                $mobileFees.fadeIn(200);
+                $mobileHistory.hide();
+            } else {
+                $mobileFees.hide();
+                $mobileHistory.fadeIn(200);
             }
         });
     });
 </script>
+
 <?php include "../../includes/student_footer.php"; ?>

@@ -58,8 +58,10 @@ body {
 }
 
 /* GLOBAL CSS */
-.title {
-  text-align: center;
+.desktop-content .title {
+  /* text-align: center; */
+  text-transform: uppercase;
+  font-weight: 400;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px dashed var(--zinc-200);
@@ -170,7 +172,7 @@ table thead th {
   font-weight: 600;
   color: var(--zinc-700);
   border-bottom: 2px solid var(--zinc-200);
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 /* Table Body */
@@ -178,7 +180,7 @@ table tbody td {
   padding: 1rem;
   border-bottom: 1px solid var(--zinc-200);
   color: var(--zinc-700);
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
 }
 
 /* Zebra striping */
@@ -232,6 +234,7 @@ table.table-striped tbody tr:nth-child(even) {
 .header {
   padding: 0.5rem;
   background: var(--color-brand-600);
+  position: relative;
 }
 .header-wrapper {
   display: flex;
@@ -278,6 +281,52 @@ table.table-striped tbody tr:nth-child(even) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+}
+.desktop-notification {
+  position: relative;
+}
+.desktop-notification .notif-number {
+  background: red;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 3rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--zinc-0);
+  position: absolute;
+  top: -0.3rem;
+  right: 0;
+}
+.desktop-box-notification {
+  /* border: 1px solid black; */
+  height: 40rem;
+  width: 40rem;
+  z-index: 20;
+  position: absolute;
+  top: 2.5rem;
+  right: 2rem;
+  transition: 0.3s ease-in;
+  background: var(--zinc-0);
+  padding: 1.2rem;
+  border-radius: 2px;
+  box-shadow: var(--shadow-md);
+  overflow-y: scroll;
+}
+.desktop-box-notification .notif-card {
+  text-align: justify;
+  padding: 0.5rem;
+  background: var(--zinc-100);
+  border-radius: 3px;
+}
+.desktop-box-notification.hide {
+  display: none;
+}
+
+.desktop-box-notification h3 {
+  margin-bottom: 1rem;
 }
 .nav-desktop-container button {
   font-size: 2rem;
@@ -291,10 +340,9 @@ table.table-striped tbody tr:nth-child(even) {
   width: fit-content;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* gap: 1rem; */
-  border-radius: 3px;
+  border-radius: 3rem;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin: 1rem auto;
 }
 .nav-desktop a {
   display: flex;
@@ -344,6 +392,42 @@ table.table-striped tbody tr:nth-child(even) {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+}
+
+.tab {
+  margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: fit-content;
+}
+
+.tab button {
+  padding: 0.8rem 1.8rem;
+  font-size: 1.4rem;
+  background: var(--zinc-200);
+  border: 1px solid var(--zinc-300);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab button:hover {
+  background: var(--zinc-300);
+}
+
+.tab button.active {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+  border-color: var(--color-brand-600);
+}
+
+.fees h3,
+.history h3 {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.mobile-box-notification {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -405,6 +489,34 @@ table.table-striped tbody tr:nth-child(even) {
     padding-bottom: 0.5rem;
     border-bottom: 1px dashed var(--zinc-300);
     font-size: 1.6rem;
+  }
+
+  .mobile-box-notification {
+    display: block;
+    position: absolute;
+    top: 3rem;
+    right: 4.5rem;
+    background: var(--zinc-0);
+    border-radius: 3px;
+    border: none;
+    box-shadow: var(--shadow-md);
+    z-index: 20;
+    padding: 0.5rem;
+    height: 30rem;
+    width: 30rem;
+    color: var(--zinc-800);
+  }
+  .mobile-box-notification h3 {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--zinc-200);
+  }
+  .mobile-box-notification .notif-card {
+    background: var(--zinc-100);
+    padding: 0.5rem;
+    text-align: justify;
+  }
+  .mobile-box-notification.hide {
+    display: none;
   }
 
   table thead th {

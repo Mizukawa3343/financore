@@ -1,0 +1,192 @@
+:root {
+  --zinc-0: #ffffff;
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+
+  --color-brand-50: #f0f6ff;
+  --color-brand-100: #d6e4ff;
+  --color-brand-200: #adc8ff;
+  --color-brand-300: #84a9ff;
+  --color-brand-400: #6690ff;
+  --color-brand-500: #3366ff;
+  --color-brand-600: #254eda;
+  --color-brand-700: #1939b7;
+  --color-brand-800: #102693;
+  --color-brand-900: #091a7a;
+
+  --border-radius: 3px;
+  --table-padding: 0.8rem;
+  --table-font-size: 1.2rem;
+
+  --danger-500: #ef4444;
+  --danger-600: #dc2626;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+
+  --shadow-sm: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --shadow-md: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--zinc-800);
+  height: 100vh;
+  background: var(--color-brand-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fee-status {
+  padding: 0.3rem 1.2rem;
+  width: 8rem;
+  text-align: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-radius: 3rem;
+  font-weight: 600;
+  /* margin: 0 auto; */
+  letter-spacing: 0.5px;
+}
+
+.fee-status.unpaid {
+  background: #fce4e4; /* softer red background for readability */
+  color: #b71c1c; /* deep red text */
+  border: 1px solid #b71c1c;
+}
+
+/* PAID */
+.fee-status.paid {
+  background: #d9f7d9; /* light minty green background */
+  color: #1b5e20; /* dark green text */
+  border: 1px solid #1b5e20;
+}
+
+/* PARTIAL */
+.fee-status.partial {
+  background: #fff8db; /* soft warm yellow */
+  color: #b8860b; /* darker goldenrod for contrast */
+  border: 1px solid #b8860b;
+}
+
+.receipt {
+  width: 50rem;
+
+  /* padding: 0 2rem; */
+}
+.receipt .header {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+  position: relative;
+  text-align: center;
+  padding: 1rem 0;
+  margin-bottom: 5rem;
+}
+.receipt .header .close {
+  color: var(--zinc-0);
+  font-size: 2.4rem;
+  position: absolute;
+  top: 0;
+  left: 1rem;
+}
+.receipt .main {
+  background: var(--zinc-0);
+  width: 80%;
+  margin: 0 auto;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.5rem 1rem 3rem;
+  margin-top: 1rem;
+}
+.main .check {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 3rem;
+  color: var(--zinc-0);
+  font-size: 3rem;
+  background: var(--color-brand-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -3rem auto 2rem auto;
+  border: 2px solid var(--zinc-0);
+}
+.main .info {
+  text-align: center;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+.main .info .name {
+  text-transform: uppercase;
+  color: var(--color-brand-800);
+}
+.main .info .id {
+  font-size: 1.2rem;
+  color: var(--zinc-600);
+}
+
+.main .payment-info .info-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--zinc-200);
+}
+.main .payment-info .info-card h3 {
+  font-size: 1.4rem;
+  color: var(--zinc-800);
+  font-weight: 400;
+}
+.main .payment-info .info-card p {
+  font-size: 1.4rem;
+  color: var(--zinc-600);
+}
+.main .payment-info .word-amount {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--zinc-600);
+  margin: 3rem 0;
+}
+.main .receipt-ref {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-top: 3rem;
+}
+
+.main .footer-note {
+  margin-top: 5rem;
+  padding: 2rem;
+  background: lightgreen;
+  border-radius: 3px;
+  border-left: 3px solid rgb(0, 149, 0);
+  font-size: 1.2rem;
+  color: darkgreen;
+  text-align: center;
+}
