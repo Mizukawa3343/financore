@@ -21,10 +21,10 @@
             </div>
             <nav class="nav nav-desktop">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Researchers</a></li>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#researchers">Researchers</a></li>
                 </ul>
                 <a class="login-link" href="./src/pages/login.php">Login</a>
             </nav>
@@ -39,7 +39,7 @@
         </div>
     </header>
 
-    <section class="hero-section">
+    <section class="hero-section" id="hero">
         <div class="wrapper hero-wrapper">
             <div class="left-content">
                 <h1>
@@ -57,7 +57,7 @@
         </div>
     </section>
 
-    <section class="about-section wrapper section-full">
+    <section class="about-section wrapper section-full " id="about">
         <div class="about-wrapper">
             <div class="left">
                 <img src="/financore/assets/system-images/about-img.png" alt="">
@@ -81,7 +81,7 @@
         </div>
     </section>
 
-    <section class="features-section wrapper ">
+    <section class="features-section wrapper " id="features">
         <div class="features-wrapper">
             <div class="features-heading">
                 <div class="badge">
@@ -236,7 +236,7 @@
         </div>
     </section>
 
-    <section class="researcher-section wrapper">
+    <section class="researcher-section wrapper" id="researchers">
         <div class="badge">
             <i class="bi bi-people-fill"></i>
             <span>Researchers</span>
@@ -295,22 +295,23 @@
             <div class="footer-links">
                 <h3>Navigation</h3>
                 <ul>
-                    <li><a href="#hero-section">Home</a></li>
-                    <li><a href="#about-section">About</a></li>
-                    <li><a href="#features-section">Features</a></li>
-                    <li><a href="#researcher-section">Researchers</a></li>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#researchers">Researchers</a></li>
                 </ul>
             </div>
 
             <div class="footer-contact">
                 <h3>Contact</h3>
                 <p><i class="bi bi-building"></i> Ceguera Technological Colleges</p>
-                <p><i class="bi bi-geo-alt"></i> Legazpi City, Bicol, PH</p>
+                <p><i class="bi bi-geo-alt"></i>Highway 1 Francia, Iriga City</p>
                 <p><i class="bi bi-envelope"></i> support@financore.edu.ph</p>
             </div>
         </div>
         <div class="footer-copyright wrapper">
-            <p>&copy; <span id="year">2025</span> Financore - All rights reserved. Developed by John Karl Bulalacao.</p>
+            <p>&copy; <span id="year"><?= date("Y") ?></span> Financore - All rights reserved. Developed by John Karl
+                Bulalacao.</p>
         </div>
     </footer>
 

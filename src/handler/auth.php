@@ -30,8 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($user["role"] === "admin") {
                 $redirect = "./admin/dashboard.php";
-            } else {
+            } elseif ($user["role"] === "superadmin") {
                 $redirect = "./superadmin/dashboard.php";
+            } else {
+                 $_SESSION["student_id"] = $user["student_id"];
+                $redirect = "./student/overview.php";
             }
 
             echo json_encode([

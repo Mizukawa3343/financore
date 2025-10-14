@@ -1,0 +1,458 @@
+:root {
+  --zinc-0: #ffffff;
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+
+  --color-brand-50: #f0f6ff;
+  --color-brand-100: #d6e4ff;
+  --color-brand-200: #adc8ff;
+  --color-brand-300: #84a9ff;
+  --color-brand-400: #6690ff;
+  --color-brand-500: #3366ff;
+  --color-brand-600: #254eda;
+  --color-brand-700: #1939b7;
+  --color-brand-800: #102693;
+  --color-brand-900: #091a7a;
+
+  --border-radius: 3px;
+  --table-padding: 0.8rem;
+  --table-font-size: 1.2rem;
+
+  --danger-500: #ef4444;
+  --danger-600: #dc2626;
+  --success-500: #22c55e;
+  --success-600: #16a34a;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+
+  --shadow-sm: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --shadow-md: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: var(--zinc-800);
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* GLOBAL CSS */
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--zinc-200);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+input,
+select,
+textarea {
+  width: 100%; /* <--- THIS IS THE PRIMARY STYLE TO OVERRIDE IN DATATABLES */
+  padding: 0.925rem 0.75rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  color: var(--zinc-800);
+  background-color: var(--zinc-0);
+  border: 1px solid var(--zinc-300);
+  border-radius: 0.3rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Hover state */
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--color-brand-200);
+}
+
+/* Focus state */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-brand-200);
+  box-shadow: 0 0 0 3px var(--zinc-200); /* <--- THIS BOX-SHADOW IS ALSO A PROBLEM */
+}
+
+/* Disabled state */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: var(--zinc-100);
+  color: var(--zinc-500);
+  cursor: not-allowed;
+}
+
+/* Textarea resizing */
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* File input styling */
+input[type="file"] {
+  border: 1px dashed var(--zinc-300);
+  padding: 0.75rem;
+  background-color: var(--zinc-50);
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--zinc-200);
+  color: var(--zinc-700);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: var(--zinc-300);
+}
+
+.table-wrapper {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--zinc-0);
+  font-size: 1.4rem;
+  color: var(--zinc-800);
+  margin: 1.5rem 0;
+  border-radius: 0.6rem;
+  overflow: hidden; /* for rounded corners */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Header */
+table thead {
+  background: var(--zinc-100);
+}
+
+table thead th {
+  padding: 1.2rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--zinc-700);
+  border-bottom: 2px solid var(--zinc-200);
+  font-size: 1rem;
+}
+
+/* Table Body */
+table tbody td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--zinc-200);
+  color: var(--zinc-700);
+  font-size: 1.2rem;
+}
+
+/* Zebra striping */
+table tbody tr:nth-child(even) {
+  background: var(--zinc-50);
+}
+
+/* Hover effect */
+table tbody tr:hover {
+  background: var(--zinc-100);
+}
+
+table.table-sm td,
+table.table-sm th {
+  padding: 0.8rem;
+  font-size: 1.3rem;
+}
+
+table.table-bordered,
+table.table-bordered td,
+table.table-bordered th {
+  border: 1px solid var(--zinc-200);
+}
+
+table.table-bordered thead th {
+  background: var(--zinc-100);
+}
+
+table.table-striped tbody tr:nth-child(even) {
+  background: var(--zinc-50);
+}
+
+.col-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.col-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.row-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  padding: 0.5rem;
+  background: var(--color-brand-600);
+}
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  color: var(--zinc-0);
+}
+.header-wrapper img {
+  height: 4rem;
+  width: 4rem;
+  object-fit: cover;
+  border: 1px solid var(--zinc-0);
+  border-radius: 3rem;
+}
+.header-wrapper .student-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.header-wrapper p {
+  margin-left: 0.1rem;
+}
+.header-wrapper .notification {
+  font-size: 2rem;
+  color: var(--zinc-0);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.main {
+  /* padding: 2rem; */
+}
+.main-content {
+  /* border: 1px solid black; */
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.nav-desktop-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-desktop-container button {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--zinc-700);
+}
+.nav-desktop {
+  background: var(--zinc-200);
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* gap: 1rem; */
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.nav-desktop a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.6rem;
+  padding: 0.65rem 1rem;
+  border-left: 1px solid var(--zinc-400);
+}
+.nav-desktop a:first-child {
+  border-left: none;
+}
+.nav-desktop a.active {
+  background: var(--color-brand-600);
+  color: var(--zinc-0);
+}
+.overview-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.75rem 2.2rem;
+  background: var(--color-brand-800);
+  font-size: 1.6rem;
+  border-radius: 3px;
+}
+
+.footer {
+  display: none;
+  background: var(--zinc-900);
+}
+
+.mobile-notification {
+  display: none;
+}
+
+.mobile-content {
+  display: none;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+}
+
+@media (max-width: 768px) {
+  .header-wrapper {
+    width: 100%;
+    padding: 0.5rem 1rem;
+  }
+  .btn-logout {
+    display: none;
+  }
+  .mobile-notification {
+    display: block;
+    font-size: 1.9rem;
+    color: var(--zinc-0);
+    background: none;
+    border: none;
+    padding-right: 1rem;
+  }
+  .nav-desktop-container {
+    display: none;
+  }
+  .desktop-content {
+    display: none;
+  }
+  .footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .footer-nav {
+    padding: 1rem;
+    color: var(--color-brand-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .footer-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 1.4rem;
+  }
+  .footer-nav a.active {
+    color: var(--color-brand-600);
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  .mobile-content {
+    display: block;
+  }
+  .mobile-content h1 {
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--zinc-300);
+    font-size: 1.6rem;
+  }
+
+  table thead th {
+    padding: 0.75rem;
+    font-size: 1.4rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--zinc-700);
+    border-bottom: 2px solid var(--zinc-200);
+  }
+
+  /* Table Body */
+  table tbody td {
+    padding: 0.85rem 1rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--zinc-200);
+    color: var(--zinc-700);
+  }
+
+  .tab {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: fit-content;
+  }
+
+  .tab button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1.4rem;
+    background: var(--zinc-200);
+    border: 1px solid var(--zinc-300);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab button:hover {
+    background: var(--zinc-300);
+  }
+
+  .tab button.active {
+    background: var(--color-brand-600);
+    color: var(--zinc-0);
+    border-color: var(--color-brand-600);
+  }
+
+  .fees h3,
+  .history h3 {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+}
