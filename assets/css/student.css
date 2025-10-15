@@ -57,6 +57,37 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
+.fee-status {
+  padding: 0.3rem 1.2rem;
+  width: 8rem;
+  text-align: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-radius: 3rem;
+  font-weight: 600;
+  /* margin: 0 auto; */
+  letter-spacing: 0.5px;
+}
+
+.fee-status.unpaid {
+  background: #fce4e4; /* softer red background for readability */
+  color: #b71c1c; /* deep red text */
+  border: 1px solid #b71c1c;
+}
+
+/* PAID */
+.fee-status.paid {
+  background: #d9f7d9; /* light minty green background */
+  color: #1b5e20; /* dark green text */
+  border: 1px solid #1b5e20;
+}
+
+/* PARTIAL */
+.fee-status.partial {
+  background: #fff8db; /* soft warm yellow */
+  color: #b8860b; /* darker goldenrod for contrast */
+  border: 1px solid #b8860b;
+}
 /* GLOBAL CSS */
 .desktop-content .title {
   /* text-align: center; */
@@ -566,5 +597,38 @@ table.table-striped tbody tr:nth-child(even) {
   .history h3 {
     font-size: 1.6rem;
     font-weight: 400;
+  }
+
+  .fees .title {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    /* padding-left: 0.2rem; */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--zinc-200);
+  }
+
+  .fee-card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow-md);
+    padding: 1rem;
+  }
+  .fee-card .fee-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .fee-card h3 {
+    font-size: 1.2rem;
+  }
+  .fee-card .fee-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px dashed var(--zinc-200);
   }
 }

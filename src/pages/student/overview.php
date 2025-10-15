@@ -93,35 +93,29 @@ $transaction_history = get_student_transaction_history($conn, $student_id);
     </div>
     <div>
         <div class="fees">
-            <h3>Student Fees</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fee</th>
-                        <th>Amount</th>
-                        <th>Balance</th>
-                        <th>Due date</th>
-                        <th>Status</th>
+            <h3 class="title">Student Fees</h3>
+            <?php foreach ($fees as $fee): ?>
+                <div class="fee-card">
+                    <div class="fee-card-heading">
+                        <h3><?= $fee["fee_name"] ?></h3>
+                        <span class="fee-status <?= $fee["status"] ?>"><?= $fee["status"] ?></span>
+                    </div>
+                    <div class="fee-info">
+                        <span>Due date</span>
+                        <span><?= format_readable_date($fee["due_date"]) ?></span>
+                    </div>
+                    <div class="fee-info">
+                        <span>Amount due</span>
+                        <span><?= $fee["amount_due"] ?></span>
+                    </div>
+                    <div class="fee-info">
+                        <span>Current balance</span>
+                        <span><?= $fee["current_balance"] ?></span>
+                    </div>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($fees as $fee): ?>
-                        <tr>
-                            <td><?= $fee["fee_name"] ?></td>
-                            <td><?= $fee["amount_due"] ?></td>
-                            <td><?= $fee["current_balance"] ?></td>
-                            <td><?= $fee["due_date"] ?></td>
-                            <td>
-                                <p class="fee-status <?= $fee["status"] ?>"><?= $fee["status"] ?></p>
-                            </td>
+                </div>
 
-                        </tr>
-                        </tr>
-                    <?php endforeach; ?>
-
-                </tbody>
-            </table>
+            <?php endforeach; ?>
         </div>
     </div>
     <div>
